@@ -1,0 +1,44 @@
+$header-sizes: (
+  small: (
+    'h1': 24,
+    'h2': 20,
+    'h3': 19,
+    'h4': 18,
+    'h5': 17,
+    'h6': 16,
+  ),
+  medium: (
+    'h1': 48,
+    'h2': 40,
+    'h3': 31,
+    'h4': 25,
+    'h5': 20,
+    'h6': 16,
+  ),
+) !default;
+
+
+// Heading sizes
+@each $size, $headers in $header-sizes {
+  @include breakpoint($size) {
+    @each $header, $font-size in $headers {
+      #{$header} {
+        font-size: rem-calc($font-size);
+      }
+    }
+  }
+}
+
+$font-raleway: 'Raleway', sans-serif;
+$font-weight-regular: 400;
+$font-weight-bold: 700;
+
+body {
+	font-family: $font-raleway;
+  line-height: 1.4;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  font-weight: 700;
+  margin-bottom: 1rem;
+}

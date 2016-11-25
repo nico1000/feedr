@@ -1,0 +1,91 @@
+@import 'reset';
+
+@import '../node_modules/foundation-sites/scss/foundation';
+
+@include foundation-flex-grid;
+@include foundation-visibility-classes;
+@include foundation-float-classes;
+@include foundation-flex-classes;
+
+//@import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
+
+@import 'typography';
+
+$gray: #888;
+$light-gray: #eee;
+$light-blue: #9ce7ff;
+
+body {
+  background: white;
+  
+}
+
+.pairs {
+  
+//  overflow-x: scroll;
+//  overflow-y: visible;
+
+}
+
+.pair {
+  display: flex;
+  
+  height: 3rem;
+  line-height: 3rem;
+
+  text-align: center;
+}
+
+.pair__chords {
+  position: sticky;
+  left: 0;
+  display: flex;
+
+  justify-content: space-around;
+  align-items: stretch;
+
+  background: $light-blue;
+}
+
+.pair__chord {
+  width: 3rem;
+
+  border: dotted $gray;
+  border-width: 0 1px 1px 0;
+
+  font-weight: $font-weight-bold;
+}
+
+.pair__records {
+  display: flex;
+  flex-wrap: no-wrap;
+  align-items: center;
+}
+
+.pair__record {
+  width: 3rem;
+
+  border: dotted $gray;
+  border-width: 0 1px 1px 0;
+
+// .pair:nth-child(2n+0) & {
+//   &:nth-child(2n+0) {
+//      background: $light-gray;
+//    }
+//
+//    &:nth-child(2n+1) {
+//      background: white;
+//    }
+// }
+//
+// .pair:nth-child(2n+1) & {
+//   &:nth-child(2n+0) {
+//      background: white;
+//    }
+//
+//    &:nth-child(2n+1) {
+//      background: $light-gray;
+//    }
+// }
+
+}

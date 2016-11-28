@@ -28,14 +28,33 @@ export default class App extends React.Component {
 class Pairs extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      currentPairs: this.getStoredPairs(),
+    };
   }
 
-  addPair() {
-    console.log('addPair()');
+
+  createNewPair(chordName1, chordName2) {
+    let newPairs = this.state.currentPairs.slice();
+
+    newPairs.push({
+      'chord1': chordName1,
+      'chord2': chordName2,
+      'records': [],
+    });
+
+    this.setState({ currentPairs: newPairs });
   }
 
-  getSavedPairs() {
-    return [
+  getStoredPairs() {
+    // default if no saved values available
+    let defaultPairs = [
+      {
+        'chord1': 'Fm7',
+        'chord2': 'G',
+        'records': [26, 33, 49, 55, 56, 62],
+      },
       {
         'chord1': 'Am',
         'chord2': 'C',
@@ -47,13 +66,22 @@ class Pairs extends React.Component {
         'records': [26, 33, 49, 55, 56, 62],
       },
     ];
+
+    if (storageAvailable('localStorage')) {
+      let storedPairs = window.localStorage.getItem('pairs');
+      if (storedPairs) {
+        return storedPairs;
+      }
+    }
+
+    return defaultPairs;
   }
 
   render() {
-    let savedPairs = this.getSavedPairs().map((currentPair, index) => {
+    let storedPairs = this.state.currentPairs.map((currentPair, index) => {
       return (
         <Pair
-          key={ currentPair.chord1 + currentPair.chord2 }
+          key={ index + '_' + currentPair.chord1 + currentPair.chord2 }
           chord1={ currentPair.chord1 }
           chord2={ currentPair.chord2 }
           records={ currentPair.records } />
@@ -62,8 +90,8 @@ class Pairs extends React.Component {
 
     return (
       <div className="pairs">
-        { savedPairs }
-        <PairAdd onClick={this.addPair} />
+        { storedPairs }
+        <PairAdd onClick={ () => { this.createNewPair('Dsus2', 'Em'); } } />
       </div>
     );
   }
@@ -120,4 +148,18 @@ function PairAdd(props) {
       <div className="pair__add" onClick={ props.onClick }>Add pair!</div>
     </div>
   )
+}
+
+// https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
+function storageAvailable(type) {
+	try {
+		var storage = window[type],
+			x = '__storage_test__';
+		storage.setItem(x, x);
+		storage.removeItem(x);
+		return true;
+	}
+	catch(e) {
+		return false;
+	}
 }

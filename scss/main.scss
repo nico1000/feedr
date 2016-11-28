@@ -14,14 +14,15 @@
 $gray: #888;
 $light-gray: #eee;
 $light-blue: #9ce7ff;
+$rose: #f2c6ff;
 
 body {
   background: white;
-  
+
 }
 
 .pairs {
-  
+
 //  overflow-x: scroll;
 //  overflow-y: visible;
 
@@ -29,11 +30,19 @@ body {
 
 .pair {
   display: flex;
-  
+
   height: 3rem;
   line-height: 3rem;
 
+  font-weight: $font-weight-bold;
   text-align: center;
+}
+
+.pair__add {
+  position: sticky;
+  left: 0;
+  width: 6rem;
+  background-color: $light-gray;
 }
 
 .pair__chords {
@@ -50,44 +59,19 @@ body {
 .pair__chord {
   width: 3rem;
   height: 3rem;
-
-  border: dotted $gray;
-  border-width: 0 1px 1px 0;
-
-  font-weight: $font-weight-bold;
 }
 
 .pair__records {
   display: flex;
   flex-wrap: no-wrap;
   align-items: center;
+
+  background-color: $rose;
 }
 
 .pair__record {
   width: 3rem;
   height: 3rem;
 
-  border: dotted $gray;
-  border-width: 0 1px 1px 0;
-
-// .pair:nth-child(2n+0) & {
-//   &:nth-child(2n+0) {
-//      background: $light-gray;
-//    }
-//
-//    &:nth-child(2n+1) {
-//      background: white;
-//    }
-// }
-//
-// .pair:nth-child(2n+1) & {
-//   &:nth-child(2n+0) {
-//      background: white;
-//    }
-//
-//    &:nth-child(2n+1) {
-//      background: $light-gray;
-//    }
-// }
 
 }

@@ -38,17 +38,12 @@ body {
   text-align: center;
 }
 
-.pair__add {
-  position: sticky;
-  left: 0;
-  width: 6rem;
-  background-color: $light-gray;
-}
-
 .pair__chords {
   position: sticky;
   left: 0;
   display: flex;
+
+  width: 8rem;
 
   justify-content: space-around;
   align-items: stretch;
@@ -57,8 +52,12 @@ body {
 }
 
 .pair__chord {
-  width: 3rem;
-  height: 3rem;
+  flex: 1 0 auto;
+}
+
+.pair__add {
+  flex: 1 0 auto;
+  background-color: $light-gray;
 }
 
 .pair__records {
@@ -71,7 +70,6 @@ body {
 
 .pair__record {
   width: 3rem;
-  height: 3rem;
 
 
 }

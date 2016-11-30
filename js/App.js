@@ -45,6 +45,17 @@ class Pairs extends React.Component {
     });
 
     this.setState({ currentPairs: newPairs });
+    this.storePairs(newPairs);
+  }
+
+  storePairs(pairsToStore) {
+    if (storageAvailable('localStorage')) {
+      console.log('storing into localStorage');
+      window.localStorage.setItem('pairs', JSON.stringify(pairsToStore));
+    }
+    else {
+      console.log('localStorage not available');
+    }
   }
 
   getStoredPairs() {
@@ -68,9 +79,10 @@ class Pairs extends React.Component {
     ];
 
     if (storageAvailable('localStorage')) {
-      let storedPairs = window.localStorage.getItem('pairs');
-      if (storedPairs) {
-        return storedPairs;
+      let storedPairsJson = window.localStorage.getItem('pairs');
+      if (storedPairsJson) {
+        console.log('reading from localStorage');
+        return JSON.parse(storedPairsJson);
       }
     }
 
@@ -145,7 +157,9 @@ function PairRecord(props) {
 function PairAdd(props) {
   return (
     <div className="pair">
-      <div className="pair__add" onClick={ props.onClick }>Add pair!</div>
+      <div className="pair__chords">
+        <div className="pair__add" onClick={ props.onClick }>Add pair!</div>
+      </div>
     </div>
   )
 }

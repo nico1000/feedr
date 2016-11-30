@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
   entry: "./js/main.js",
   output: {
     path: __dirname,

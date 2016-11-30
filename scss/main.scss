@@ -43,7 +43,7 @@ body {
   left: 0;
   display: flex;
 
-  width: 8rem;
+  flex: 0 0 8rem;
 
   justify-content: space-around;
   align-items: stretch;
@@ -70,6 +70,26 @@ body {
 
 .pair__record {
   width: 3rem;
+}
 
+.pair__new {
+  height: 100vh;
+  display: flex;
 
+  .chord-choose {
+    flex: 1 0 50%;
+    
+    overflow: scroll;
+
+    .chord {
+      height: 4rem;
+      
+      &:nth-child(2n+0) {
+        background-color: $light-gray;
+      }
+      &:nth-child(2n+1) {
+        background-color: $gray;
+      }
+    }
+  }
 }

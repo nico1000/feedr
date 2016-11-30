@@ -1,26 +1,19 @@
 import React from 'react';
+import * as Chord from './Chord';
 
 const dispStates = {
   PAIRS: 'PAIRS',
+  PAIR_NEW: 'PAIR_NEW',
 };
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      dispState: dispStates.PAIRS,
-    };
   }
   render() {
-    if (this.state.dispState == dispStates.PAIRS) {
       return (
         <Pairs />
       );
-    } else {
-      return (
-        <span>nothing to display</span>
-      );
-    }
   }
 
 }
@@ -30,22 +23,32 @@ class Pairs extends React.Component {
     super(props);
 
     this.state = {
+      dispState: dispStates.PAIRS,
       currentPairs: this.getStoredPairs(),
     };
+    
   }
 
+  componentDidMount() {
+    console.log('Pairs.componentDidMount()');
+  }
+
+  // addPair = () => {
+  //   this.setState({ dispState: dispStates.PAIR_NEW });
+  // }
 
   createNewPair(chordName1, chordName2) {
-    let newPairs = this.state.currentPairs.slice();
-
-    newPairs.push({
-      'chord1': chordName1,
-      'chord2': chordName2,
-      'records': [],
-    });
-
-    this.setState({ currentPairs: newPairs });
-    this.storePairs(newPairs);
+  
+    // let newPairs = this.state.currentPairs.slice();
+    //
+    // newPairs.push({
+    //   'chord1': chordName1,
+    //   'chord2': chordName2,
+    //   'records': [],
+    // });
+    //
+    // this.setState({ currentPairs: newPairs });
+    // this.storePairs(newPairs);
   }
 
   storePairs(pairsToStore) {
@@ -61,6 +64,16 @@ class Pairs extends React.Component {
   getStoredPairs() {
     // default if no saved values available
     let defaultPairs = [
+      {
+        'chord1': 'Fm7',
+        'chord2': 'G',
+        'records': [26, 33, 49, 55, 56, 63, 49, 55, 56, 62],
+      },
+      {
+        'chord1': 'Am',
+        'chord2': 'C',
+        'records': [24, 26, 33, 49, 55],
+      },
       {
         'chord1': 'Fm7',
         'chord2': 'G',
@@ -100,14 +113,28 @@ class Pairs extends React.Component {
       );
     });
 
-    return (
-      <div className="pairs">
-        { storedPairs }
-        <PairAdd onClick={ () => { this.createNewPair('Dsus2', 'Em'); } } />
-      </div>
-    );
+    if (this.state.dispState == dispStates.PAIRS) {
+      return (
+        <div className="pairs">
+          { storedPairs }
+          <PairAdd onClick={ () => { this.setState({ dispState: dispStates.PAIR_NEW }); } } />
+        </div>
+      );
+    }
+    else if (this.state.dispState == dispStates.PAIR_NEW) {
+      return (
+        <div className="pair__new">
+          <Chord.ChordChoose />
+          <Chord.ChordChoose />
+        </div>
+      );
+    }
+    else {
+      return (
+        <span>nothing to display</span>
+      );
+    }
   }
-
 }
 
 function Pair(props) {

@@ -15,23 +15,37 @@ export default class Chord extends React.Component {
 
 }
 
-export function ChordChoose() {
+export function allChords() {
+  return [
+    'A',
+    'Am',
+    'B7',
+    'C',
+    'C7',
+    'D',
+    'Dm',
+    'E',
+    'Em',
+    'F',
+    'Fm7',
+    'G',
+    'G7'
+  ];
+}
+
+export function chordChoose(props) {
+
+  let availableChords = props.availableChords.map((chord, index) => {
+    return (
+      <Chord
+        key={ index + '_' + chord }
+        chordName={ chord } />
+    );
+  });
+
   return (
     <div className='chord-choose'>
-      <Chord chordName='1' />
-      <Chord chordName='2' />
-      <Chord chordName='3' />
-      <Chord chordName='4' />
-      <Chord chordName='5' />
-      <Chord chordName='6' />
-      <Chord chordName='7' />
-      <Chord chordName='8' />
-      <Chord chordName='9' />
-      <Chord chordName='10' />
-      <Chord chordName='11' />
-      <Chord chordName='12' />
-      <Chord chordName='13' />
-      <Chord chordName='14' />
+    { availableChords }
     </div>
   );
 }

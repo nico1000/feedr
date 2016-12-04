@@ -25,8 +25,9 @@ class Pairs extends React.Component {
     this.state = {
       dispState: dispStates.PAIRS,
       currentPairs: this.getStoredPairs(),
+      selectedChord: '',
     };
-    
+
   }
 
   componentDidMount() {
@@ -38,7 +39,7 @@ class Pairs extends React.Component {
   // }
 
   createNewPair(chordName1, chordName2) {
-  
+
     // let newPairs = this.state.currentPairs.slice();
     //
     // newPairs.push({
@@ -49,6 +50,17 @@ class Pairs extends React.Component {
     //
     // this.setState({ currentPairs: newPairs });
     // this.storePairs(newPairs);
+  }
+
+  availableChords() {
+    let allChords = Chord.allChords();
+
+    let availableChords = {
+      left: allChords,
+      right: allChords,
+    }
+
+    return availableChords;
   }
 
   storePairs(pairsToStore) {
@@ -124,8 +136,8 @@ class Pairs extends React.Component {
     else if (this.state.dispState == dispStates.PAIR_NEW) {
       return (
         <div className="pair__new">
-          <Chord.ChordChoose />
-          <Chord.ChordChoose />
+          <Chord.chordChoose availableChords={ this.availableChords().left } />
+          <Chord.chordChoose availableChords={ this.availableChords().right } />
         </div>
       );
     }

@@ -78,17 +78,20 @@ body {
 
   .chord-choose {
     flex: 1 0 50%;
-    
+
     overflow: scroll;
+    display: flex;
+    flex-direction: column;
 
     .chord {
-      height: 4rem;
-      
-      &:nth-child(2n+0) {
-        background-color: $light-gray;
-      }
-      &:nth-child(2n+1) {
-        background-color: $gray;
+      flex: 1 0 6rem;
+      text-align: center;
+      line-height: 6rem;
+      font-size: 8vw;
+      font-weight: $font-weight-bold;
+
+      &:hover {
+        background-color: $rose;
       }
     }
   }

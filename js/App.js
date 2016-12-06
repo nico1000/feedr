@@ -25,7 +25,8 @@ class Pairs extends React.Component {
     this.state = {
       dispState: dispStates.PAIRS,
       currentPairs: this.getStoredPairs(),
-      selectedChord: '',
+      selectedChordLeft: '',
+      selectedChordRight: '',
     };
 
   }
@@ -52,15 +53,65 @@ class Pairs extends React.Component {
     // this.storePairs(newPairs);
   }
 
-  availableChords() {
-    let allChords = Chord.allChords();
 
-    let availableChords = {
-      left: allChords,
-      right: allChords,
+  allPairs() {
+    let allChords = Chord.allChords();
+    let allPairs = [];
+
+    for (let i = 0; i < allChords.length - 1; i++ ) {
+      for (let j = i + 1; j < allChords.length; j++) {
+        allPairs.push({
+          chord1: allChords[i],
+          chord2: allChords[j]
+        });
+      }
     }
 
+    return allPairs;
+  }
+
+  countPairsWithChord = (pairs, chord) => {
+    let count = 0;
+
+    pairs.forEach((pair, index) => {
+      if (pair.chord1 == chord || pair.chord2 == chord) {
+        count++;
+      }
+    });
+
+    return count;
+  }
+
+  availableChords = () => {
+    let availableChords = {
+      left: [],
+      right: [],
+    }
+
+    let allChords = Chord.allChords();
+
+    allChords.forEach((chord, index) => {
+      if (this.countPairsWithChord(this.state.currentPairs, chord) < allChords.length - 1 ) {
+          if (this.state.selectedChordLeft !== chord) {
+              availableChords.right.push(chord);
+              console.log('adding "' + chord + '" to right');
+          }
+          if (this.state.selectedChordRight !== chord) {
+              availableChords.left.push(chord);
+              console.log('adding "' + chord + '" to left');
+          }
+      }
+    });
+
     return availableChords;
+  }
+
+  chordSelected = (e) => {
+    console.log('chordSelected');
+    console.log(e.target);
+    console.log(e.target.innerText);
+
+    console.log(e.currentTarget);
   }
 
   storePairs(pairsToStore) {
@@ -77,30 +128,30 @@ class Pairs extends React.Component {
     // default if no saved values available
     let defaultPairs = [
       {
+        'chord1': 'Am',
+        'chord2': 'C',
+        'records': [24, 26, 33, 49, 55],
+      },
+      {
+        'chord1': 'Fm7',
+        'chord2': 'Am',
+        'records': [26, 33, 49, 55, 56, 62],
+      },
+      {
+        'chord1': 'Am',
+        'chord2': 'G',
+        'records': [24, 26, 33, 49, 55],
+      },
+      {
         'chord1': 'Fm7',
         'chord2': 'G',
         'records': [26, 33, 49, 55, 56, 63, 49, 55, 56, 62],
       },
-      {
-        'chord1': 'Am',
-        'chord2': 'C',
-        'records': [24, 26, 33, 49, 55],
-      },
-      {
-        'chord1': 'Fm7',
-        'chord2': 'G',
-        'records': [26, 33, 49, 55, 56, 62],
-      },
-      {
-        'chord1': 'Am',
-        'chord2': 'C',
-        'records': [24, 26, 33, 49, 55],
-      },
-      {
-        'chord1': 'Fm7',
-        'chord2': 'G',
-        'records': [26, 33, 49, 55, 56, 62],
-      },
+      // {
+      //   'chord1': 'Fm7',
+      //   'chord2': 'C',
+      //   'records': [26, 33, 49, 55, 56, 62],
+      // },
     ];
 
     if (storageAvailable('localStorage')) {
@@ -134,10 +185,13 @@ class Pairs extends React.Component {
       );
     }
     else if (this.state.dispState == dispStates.PAIR_NEW) {
+
+      let availableChords = this.availableChords();
+
       return (
         <div className="pair__new">
-          <Chord.chordChoose availableChords={ this.availableChords().left } />
-          <Chord.chordChoose availableChords={ this.availableChords().right } />
+          <Chord.chordChoose availableChords={ availableChords.left } onClick={ this.chordSelected } />
+          <Chord.chordChoose availableChords={ availableChords.right } onClick={ this.chordSelected } />
         </div>
       );
     }

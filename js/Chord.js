@@ -7,7 +7,7 @@ export default class Chord extends React.Component {
 
   render() {
     return (
-      <div className='chord'>
+      <div className='chord' >
         { this.props.chordName }
       </div>
     );
@@ -17,19 +17,26 @@ export default class Chord extends React.Component {
 
 export function allChords() {
   return [
-    'A',
+    // 'A',
+    // 'B',
+    // 'C',
+    // 'D',
+    // 'E',
     'Am',
-    'B7',
-    'C',
-    'C7',
-    'D',
-    'Dm',
-    'E',
-    'Em',
-    'F',
     'Fm7',
+    'C',
     'G',
-    'G7'
+    // 'B7',
+    // 'C',
+    // 'C7',
+    // 'D',
+    // 'Dm',
+    // 'E',
+    // 'Em',
+    // 'F',
+    // 'Fm7',
+    // 'G',
+    // 'G7'
   ];
 }
 
@@ -44,7 +51,7 @@ export function chordChoose(props) {
   });
 
   return (
-    <div className='chord-choose'>
+    <div className='chord-choose' onClick={ props.onClick }>
     { availableChords }
     </div>
   );

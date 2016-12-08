@@ -7,7 +7,7 @@ export default class Chord extends React.Component {
 
   render() {
     return (
-      <div className='chord' >
+      <div className='chord' data-chord-name={ this.props.chordName } >
         { this.props.chordName }
       </div>
     );
@@ -51,7 +51,7 @@ export function chordChoose(props) {
   });
 
   return (
-    <div className='chord-choose' onClick={ props.onClick }>
+    <div className='chord-choose' onClick={ props.onClick } data-display-position={ props.displayPosition }>
     { availableChords }
     </div>
   );

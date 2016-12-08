@@ -31,9 +31,7 @@ class Pairs extends React.Component {
 
   }
 
-  componentDidMount() {
-    console.log('Pairs.componentDidMount()');
-  }
+
 
   // addPair = () => {
   //   this.setState({ dispState: dispStates.PAIR_NEW });
@@ -107,11 +105,15 @@ class Pairs extends React.Component {
   }
 
   chordSelected = (e) => {
-    console.log('chordSelected');
-    console.log(e.target);
-    console.log(e.target.innerText);
 
-    console.log(e.currentTarget);
+    let chordName = e.target.dataset['chordName'];
+    let position = e.currentTarget.dataset['displayPosition'];
+
+    if (position == 'left') {
+      this.setState({ selectedChordLeft: chordName});
+    } else {
+      this.setState({ selectedChordRight: chordName});
+    }
   }
 
   storePairs(pairsToStore) {
@@ -190,8 +192,8 @@ class Pairs extends React.Component {
 
       return (
         <div className="pair__new">
-          <Chord.chordChoose availableChords={ availableChords.left } onClick={ this.chordSelected } />
-          <Chord.chordChoose availableChords={ availableChords.right } onClick={ this.chordSelected } />
+          <Chord.chordChoose availableChords={ availableChords.left } onClick={ this.chordSelected } displayPosition={ 'left' } />
+          <Chord.chordChoose availableChords={ availableChords.right } onClick={ this.chordSelected } displayPosition={ 'right' } />
         </div>
       );
     }

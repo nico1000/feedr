@@ -7,7 +7,7 @@ export default class Chord extends React.Component {
 
   render() {
     return (
-      <div className='chord' data-chord-name={ this.props.chordName } >
+      <div className={ 'chord ' + this.props.className} data-chord-name={ this.props.chordName } >
         { this.props.chordName }
       </div>
     );
@@ -46,7 +46,8 @@ export function chordChoose(props) {
     return (
       <Chord
         key={ index + '_' + chord }
-        chordName={ chord } />
+        chordName={ chord }
+        className={ props.selectedChord == chord ? 'chord--selected' : '' } />
     );
   });
 

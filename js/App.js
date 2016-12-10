@@ -25,8 +25,7 @@ class Pairs extends React.Component {
     this.state = {
       dispState: dispStates.PAIRS,
       currentPairs: this.getStoredPairs(),
-      selectedChordLeft: '',
-      selectedChordRight: '',
+      selectedChords: { left: '', right: '' },
     };
 
   }
@@ -90,13 +89,11 @@ class Pairs extends React.Component {
 
     allChords.forEach((chord, index) => {
       if (this.countPairsWithChord(this.state.currentPairs, chord) < allChords.length - 1 ) {
-          if (this.state.selectedChordLeft !== chord) {
-              availableChords.right.push(chord);
-              console.log('adding "' + chord + '" to right');
-          }
-          if (this.state.selectedChordRight !== chord) {
+          if (this.state.selectedChords.right !== chord) {
               availableChords.left.push(chord);
-              console.log('adding "' + chord + '" to left');
+          }
+          if (this.state.selectedChords.left !== chord) {
+              availableChords.right.push(chord);
           }
       }
     });
@@ -109,12 +106,21 @@ class Pairs extends React.Component {
     let chordName = e.target.dataset['chordName'];
     let position = e.currentTarget.dataset['displayPosition'];
 
-    if (position == 'left') {
-      this.setState({ selectedChordLeft: chordName});
-    } else {
-      this.setState({ selectedChordRight: chordName});
+    // init with previous values
+    const newSelection = this.state.selectedChords;
+
+    // if same as already selected do deselect
+    if (chordName == this.state.selectedChords[position]) {
+      chordName = '';
     }
+    else {
+
+    }
+
+    newSelection[position] = chordName;
+    this.setState({ selectedChords: newSelection });
   }
+
 
   storePairs(pairsToStore) {
     if (storageAvailable('localStorage')) {
@@ -192,8 +198,8 @@ class Pairs extends React.Component {
 
       return (
         <div className="pair__new">
-          <Chord.chordChoose availableChords={ availableChords.left } onClick={ this.chordSelected } displayPosition={ 'left' } />
-          <Chord.chordChoose availableChords={ availableChords.right } onClick={ this.chordSelected } displayPosition={ 'right' } />
+          <Chord.chordChoose availableChords={ availableChords.left }  selectedChord={ this.state.selectedChords.left }  onClick={ this.chordSelected.bind(this) } displayPosition={ 'left' } />
+          <Chord.chordChoose availableChords={ availableChords.right } selectedChord={ this.state.selectedChords.right } onClick={ this.chordSelected.bind(this) } displayPosition={ 'right' } />
         </div>
       );
     }

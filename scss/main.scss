@@ -84,11 +84,15 @@ body {
     flex-direction: column;
 
     .chord {
-      flex: 1 0 6rem;
+      flex: 0 0 6rem;
       text-align: center;
       line-height: 6rem;
       font-size: 8vw;
       font-weight: $font-weight-bold;
+
+      &--selected {
+        background-color: $light-blue;
+      }
 
       &:hover {
         background-color: $rose;

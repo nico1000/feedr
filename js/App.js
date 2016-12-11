@@ -30,7 +30,19 @@ class Pairs extends React.Component {
 
   }
 
+  componentWillMount = () => {
+    window.addEventListener('keydown', this.handleKeydown);
+  }
 
+  componentWillUnmount = () => {
+    window.removeEventListener('keydown', this.handleKeydown);
+  }
+
+  handleKeydown = (e) => {
+    if (e.key == 'Escape' && this.state.dispState == dispStates.PAIR_NEW) {
+      this.setState({ dispState: dispStates.PAIRS });
+    }
+  }
 
   // addPair = () => {
   //   this.setState({ dispState: dispStates.PAIR_NEW });
@@ -204,7 +216,7 @@ class Pairs extends React.Component {
     let availableChords = this.availableChords();
     let addPair;
     if (availableChords.left.length >= 2) {
-      addPair = <PairAdd onClick={ () => { this.setState({ dispState: dispStates.PAIR_NEW }); } } />
+      addPair = <PairAdd onClick={ () => { this.setState({ dispState: dispStates.PAIR_NEW, selectedChords: {left: '', right: ''} }); } } />
     }
 
     let storedPairs = this.state.currentPairs.map((currentPair, index) => {
@@ -228,7 +240,7 @@ class Pairs extends React.Component {
     else if (this.state.dispState == dispStates.PAIR_NEW) {
 
       return (
-        <div className="pair__new">
+        <div className="pair__new" >
           <Chord.chordChoose availableChords={ availableChords.left }  selectedChord={ this.state.selectedChords.left }  onClick={ this.chordSelected } displayPosition={ 'left' } />
           <Chord.chordChoose availableChords={ availableChords.right } selectedChord={ this.state.selectedChords.right } onClick={ this.chordSelected } displayPosition={ 'right' } />
         </div>

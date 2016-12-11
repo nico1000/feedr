@@ -17,26 +17,18 @@ export default class Chord extends React.Component {
 
 export function allChords() {
   return [
-    // 'A',
-    // 'B',
-    // 'C',
-    // 'D',
-    // 'E',
     'Am',
-    'Fm7',
+    'B7',
     'C',
+    'C7',
+    'D',
+    'Dm',
+    'E',
+    'Em',
+    'F',
+    'Fm7',
     'G',
-    // 'B7',
-    // 'C',
-    // 'C7',
-    // 'D',
-    // 'Dm',
-    // 'E',
-    // 'Em',
-    // 'F',
-    // 'Fm7',
-    // 'G',
-    // 'G7'
+    'G7'
   ];
 }
 

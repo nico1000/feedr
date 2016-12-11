@@ -36,18 +36,17 @@ class Pairs extends React.Component {
   //   this.setState({ dispState: dispStates.PAIR_NEW });
   // }
 
-  createNewPair(chordName1, chordName2) {
+  createNewPair = (chordName1, chordName2) => {
+    let newPairs = this.state.currentPairs.slice();
 
-    // let newPairs = this.state.currentPairs.slice();
-    //
-    // newPairs.push({
-    //   'chord1': chordName1,
-    //   'chord2': chordName2,
-    //   'records': [],
-    // });
-    //
-    // this.setState({ currentPairs: newPairs });
-    // this.storePairs(newPairs);
+    newPairs.push({
+      'chord1': chordName1,
+      'chord2': chordName2,
+      'records': [],
+    });
+
+    this.setState({ currentPairs: newPairs });
+    this.storePairs(newPairs);
   }
 
 
@@ -70,13 +69,30 @@ class Pairs extends React.Component {
   countPairsWithChord = (pairs, chord) => {
     let count = 0;
 
-    pairs.forEach((pair, index) => {
+    pairs.forEach((pair) => {
       if (pair.chord1 == chord || pair.chord2 == chord) {
         count++;
       }
     });
 
     return count;
+  }
+
+  pairExists = (chord1, chord2) => {
+    // if one of the chords is empty, return immediately
+    if (chord1 == '' || chord2 == '') {
+      return false;
+    }
+
+    let result = false;
+    this.state.currentPairs.forEach((pair) => {
+        if ((pair.chord1 == chord1 && pair.chord2 == chord2) ||
+            (pair.chord2 == chord1 && pair.chord1 == chord2) ) {
+          result = true;
+        }
+    });
+
+    return result;
   }
 
   availableChords = () => {
@@ -88,11 +104,12 @@ class Pairs extends React.Component {
     let allChords = Chord.allChords();
 
     allChords.forEach((chord, index) => {
-      if (this.countPairsWithChord(this.state.currentPairs, chord) < allChords.length - 1 ) {
-          if (this.state.selectedChords.right !== chord) {
+      let pairsWithChord = this.countPairsWithChord(this.state.currentPairs, chord);
+      if (pairsWithChord < allChords.length - 1 ) {
+          if (this.state.selectedChords.right !== chord && !this.pairExists(this.state.selectedChords.right, chord)) {
               availableChords.left.push(chord);
           }
-          if (this.state.selectedChords.left !== chord) {
+          if (this.state.selectedChords.left !== chord && !this.pairExists(this.state.selectedChords.left, chord)) {
               availableChords.right.push(chord);
           }
       }
@@ -107,18 +124,27 @@ class Pairs extends React.Component {
     let position = e.currentTarget.dataset['displayPosition'];
 
     // init with previous values
-    const newSelection = this.state.selectedChords;
+    let newSelection = this.state.selectedChords;
+    let newDispState = this.state.dispState;
 
     // if same as already selected do deselect
     if (chordName == this.state.selectedChords[position]) {
       chordName = '';
     }
-    else {
-
-    }
 
     newSelection[position] = chordName;
-    this.setState({ selectedChords: newSelection });
+
+    // check if now complete pair is selected
+    if (newSelection.left != '' && newSelection.right != '') {
+        this.createNewPair(newSelection.left, newSelection.right);
+        newSelection = { left: '', right: '' };
+        newDispState = dispStates.PAIRS;
+    }
+
+    this.setState({
+      selectedChords: newSelection,
+      dispState: newDispState,
+    });
   }
 
 
@@ -174,6 +200,13 @@ class Pairs extends React.Component {
   }
 
   render() {
+
+    let availableChords = this.availableChords();
+    let addPair;
+    if (availableChords.left.length >= 2) {
+      addPair = <PairAdd onClick={ () => { this.setState({ dispState: dispStates.PAIR_NEW }); } } />
+    }
+
     let storedPairs = this.state.currentPairs.map((currentPair, index) => {
       return (
         <Pair
@@ -188,18 +221,16 @@ class Pairs extends React.Component {
       return (
         <div className="pairs">
           { storedPairs }
-          <PairAdd onClick={ () => { this.setState({ dispState: dispStates.PAIR_NEW }); } } />
+          { addPair }
         </div>
       );
     }
     else if (this.state.dispState == dispStates.PAIR_NEW) {
 
-      let availableChords = this.availableChords();
-
       return (
         <div className="pair__new">
-          <Chord.chordChoose availableChords={ availableChords.left }  selectedChord={ this.state.selectedChords.left }  onClick={ this.chordSelected.bind(this) } displayPosition={ 'left' } />
-          <Chord.chordChoose availableChords={ availableChords.right } selectedChord={ this.state.selectedChords.right } onClick={ this.chordSelected.bind(this) } displayPosition={ 'right' } />
+          <Chord.chordChoose availableChords={ availableChords.left }  selectedChord={ this.state.selectedChords.left }  onClick={ this.chordSelected } displayPosition={ 'left' } />
+          <Chord.chordChoose availableChords={ availableChords.right } selectedChord={ this.state.selectedChords.right } onClick={ this.chordSelected } displayPosition={ 'right' } />
         </div>
       );
     }

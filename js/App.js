@@ -44,6 +44,12 @@ class Pairs extends React.Component {
     }
   }
 
+  cancelAddPair = (e) => {
+    console.log('cancelAddPair');
+    e.stopPropagation();
+    this.setState({ dispState: dispStates.PAIRS });
+  }
+
   // addPair = () => {
   //   this.setState({ dispState: dispStates.PAIR_NEW });
   // }
@@ -160,6 +166,11 @@ class Pairs extends React.Component {
   }
 
 
+  addRecord = () => {
+    console.log('addRecord()');
+  }
+
+
   storePairs(pairsToStore) {
     if (storageAvailable('localStorage')) {
       console.log('storing into localStorage');
@@ -225,7 +236,8 @@ class Pairs extends React.Component {
           key={ index + '_' + currentPair.chord1 + currentPair.chord2 }
           chord1={ currentPair.chord1 }
           chord2={ currentPair.chord2 }
-          records={ currentPair.records } />
+          records={ currentPair.records }
+          addRecord={ this.addRecord } />
       );
     });
 
@@ -242,7 +254,7 @@ class Pairs extends React.Component {
       return (
         <div className="pair__new" >
           <Chord.chordChoose availableChords={ availableChords.left }  selectedChord={ this.state.selectedChords.left }  onClick={ this.chordSelected } displayPosition={ 'left' } />
-          <Chord.chordChoose availableChords={ availableChords.right } selectedChord={ this.state.selectedChords.right } onClick={ this.chordSelected } displayPosition={ 'right' } />
+          <Chord.chordChoose availableChords={ availableChords.right } selectedChord={ this.state.selectedChords.right } onClick={ this.chordSelected } displayPosition={ 'right' } cancelFn={ this.cancelAddPair } />
         </div>
       );
     }
@@ -258,7 +270,7 @@ function Pair(props) {
   return (
     <div className="pair">
       <PairChords chord1={ props.chord1 } chord2={ props.chord2 } />
-      <PairRecords records={ props.records }/>
+      <PairRecords records={ props.records } addRecord={ props.addRecord } />
     </div>
   );
 }
@@ -288,6 +300,7 @@ function PairRecords(props) {
   return (
     <div className="pair__records">
       { records }
+      <div className="pair__record pair__record--add" onClick={ props.addRecord } ><i className="fa fa-clock-o"></i></div>
     </div>
   );
 }
@@ -307,6 +320,7 @@ function PairAdd(props) {
     </div>
   )
 }
+
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
 function storageAvailable(type) {

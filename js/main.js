@@ -1,4 +1,6 @@
 require('../scss/main.scss');
+require('../node_modules/font-awesome/scss/font-awesome.scss');
+
 require('../node_modules/blissfuljs/bliss.js');
 
 import React from 'react';

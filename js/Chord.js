@@ -45,6 +45,7 @@ export function chordChoose(props) {
 
   return (
     <div className='chord-choose' onClick={ props.onClick } data-display-position={ props.displayPosition }>
+    { props.cancelFn ? <div className='chord' onClick={ props.cancelFn }>X</div> : ''}
     { availableChords }
     </div>
   );

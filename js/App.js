@@ -4,6 +4,7 @@ import * as Chord from './Chord';
 const dispStates = {
   PAIRS: 'PAIRS',
   PAIR_NEW: 'PAIR_NEW',
+  PAIR_RECORD: 'PAIR_RECORD',
 };
 
 export default class App extends React.Component {
@@ -250,11 +251,16 @@ class Pairs extends React.Component {
       );
     }
     else if (this.state.dispState == dispStates.PAIR_NEW) {
-
       return (
-        <div className="pair__new" >
+        <div className="chord-pair-choose" >
           <Chord.chordChoose availableChords={ availableChords.left }  selectedChord={ this.state.selectedChords.left }  onClick={ this.chordSelected } displayPosition={ 'left' } />
           <Chord.chordChoose availableChords={ availableChords.right } selectedChord={ this.state.selectedChords.right } onClick={ this.chordSelected } displayPosition={ 'right' } cancelFn={ this.cancelAddPair } />
+        </div>
+      );
+    }
+    else if (this.state.dispState == dispStates.PAIR_RECORD) {
+      return (
+        <div className="pair__record" >
         </div>
       );
     }

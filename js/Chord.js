@@ -30,8 +30,8 @@ export default class Chord extends React.Component {
     ];
   }
 
-  static chordChoose(props) {
-    let availableChords = props.availableChords.map((chord, index) => {
+  static chordsColumn(props) {
+    let chords = props.chords.map((chord, index) => {
       return (
         <Chord
           key={ index + '_' + chord }
@@ -41,8 +41,8 @@ export default class Chord extends React.Component {
     });
 
     return (
-      <div className='chord-choose' onClick={ props.onClick } data-display-position={ props.displayPosition }>
-        { availableChords }
+      <div className='chords-column' onClick={ props.onClick } data-display-position={ props.displayPosition }>
+        { chords }
       </div>
     );
   }

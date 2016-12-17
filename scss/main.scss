@@ -99,31 +99,69 @@ body {
   }
 }
 
-.chord-pair-choose {
+.columns-container {
   height: 100vh;
   display: flex;
+  position: relative;
+}
 
-  .chord-choose {
-    flex: 1 0 50%;
+.chords-column {
+  flex: 1 0 50%;
 
-    overflow: scroll;
-    display: flex;
-    flex-direction: column;
+  overflow: scroll;
+  display: flex;
+  flex-direction: column;
+}
 
-    .chord {
-      flex: 0 0 6rem;
-      text-align: center;
-      line-height: 6rem;
-      font-size: 8vw;
-      font-weight: $font-weight-bold;
+.chord {
+  flex: 0 0 6rem;
+  text-align: center;
+  line-height: 6rem;
+  font-size: 8vw;
+  font-weight: $font-weight-bold;
 
-      &--selected {
-        background-color: $light-blue;
-      }
+  .columns-container--select-chords &--selected {
+    background-color: $light-blue;
+  }
 
-      &:hover {
-        background-color: $rose;
-      }
-    }
+  .columns-container--select-chords &:hover {
+    background-color: $rose;
+  }
+}
+
+.chord-pair-record {
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    height: 100%;
+
+    animation: 5s linear record-pair-before-start, 60s linear 5s record-pair-countdown;
+    animation-fill-mode: forwards;
+  }
+}
+
+@keyframes record-pair-before-start {
+  from {
+    width: 100%;
+    background-color: #444;
+  }
+  to {
+    width: 0%;
+    background-color: #ccc;
+  }
+}
+
+@keyframes record-pair-countdown {
+  0% {
+    width: 0%;
+    background-color: yellow;
+  }
+  100% {
+    width: 100%;
+    background-color: red;
   }
 }

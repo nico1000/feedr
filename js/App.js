@@ -277,9 +277,9 @@ class Pairs extends React.Component {
           <Menu>
             <Menu.item title={'Cancel'} onClick={ this.cancelAddPair } />
           </Menu>
-          <div className="chord-pair-choose" >
-            <Chord.chordChoose availableChords={ availableChords.left }  selectedChord={ this.state.selectedChords.left }  onClick={ this.chordSelected } displayPosition={ 'left' } />
-            <Chord.chordChoose availableChords={ availableChords.right } selectedChord={ this.state.selectedChords.right } onClick={ this.chordSelected } displayPosition={ 'right' } />
+          <div className="columns-container columns-container--select-chords" >
+            <Chord.chordsColumn chords={ availableChords.left }  selectedChord={ this.state.selectedChords.left }  onClick={ this.chordSelected } displayPosition={ 'left' } />
+            <Chord.chordsColumn chords={ availableChords.right } selectedChord={ this.state.selectedChords.right } onClick={ this.chordSelected } displayPosition={ 'right' } />
           </div>
         </div>
       );
@@ -291,7 +291,11 @@ class Pairs extends React.Component {
             <Menu.item title={'Cancel'} onClick={ this.cancelAddRecord } />
           </Menu>
           <div className="chord-pair-record" >
-            Hello! { this.state.currentPair }
+            <div className="columns-container" >
+              <Chord.chordsColumn chords={ ['Am'] } displayPosition={ 'left' } />
+              <Chord.chordsColumn chords={ ['C'] } displayPosition={ 'right' } />
+            </div>
+
           </div>
         </div>
       );

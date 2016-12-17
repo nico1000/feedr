@@ -42,8 +42,7 @@ export default class Chord extends React.Component {
 
     return (
       <div className='chord-choose' onClick={ props.onClick } data-display-position={ props.displayPosition }>
-      { props.cancelFn ? <div className='chord' onClick={ props.cancelFn }>X</div> : ''}
-      { availableChords }
+        { availableChords }
       </div>
     );
   }

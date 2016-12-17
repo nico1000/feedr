@@ -9,10 +9,14 @@ export default class Menu extends React.Component {
     return (
       <ul className='menu'>
         <li className='menu__item menu__item--title'>Chord trainer</li>
-        <li className='menu__item' onClick={ this.props.addPairFn }>Add pair</li>
-        <li className='menu__item' onClick={ this.props.resetFn }>Reset</li>
+        { this.props.children }
       </ul>
     );
   }
 
+  static item(props) {
+    return (
+      <li className='menu__item' onClick={ props.onClick } >{ props.title}</li>
+    )
+  }
 }

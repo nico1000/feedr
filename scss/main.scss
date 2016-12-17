@@ -23,6 +23,7 @@ $pair-height: 3rem;
 
 body {
   background: white;
+  padding-top: $menu-height;
 }
 
 .menu {
@@ -37,16 +38,16 @@ body {
 .menu__item {
   height: $menu-height;
   padding: 0.3rem;
+  cursor: pointer;
 }
 
 .menu__item--title {
   flex: 1 0 auto;
   font-weight: bold;
+  cursor: default;
 }
 
 .pairs {
-  margin-top: $menu-height;
-
 }
 
 .pair {

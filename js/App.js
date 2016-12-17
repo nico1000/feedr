@@ -172,6 +172,13 @@ class Pairs extends React.Component {
     console.log('addRecord()');
   }
 
+  reset = () => {
+    if (storageAvailable('localStorage')) {
+      delete window.localStorage.pairs;
+    }
+
+    this.setState({ currentPairs: this.getStoredPairs() })
+  }
 
   storePairs(pairsToStore) {
     if (storageAvailable('localStorage')) {
@@ -189,22 +196,22 @@ class Pairs extends React.Component {
       {
         'chord1': 'Am',
         'chord2': 'C',
-        'records': [24, 26, 33, 49, 55],
+        'records': [],
       },
       {
         'chord1': 'Fm7',
         'chord2': 'Am',
-        'records': [26, 33, 49, 55, 56, 62],
+        'records': [],
       },
       {
         'chord1': 'Am',
         'chord2': 'G',
-        'records': [24, 26, 33, 49, 55],
+        'records': [],
       },
       {
         'chord1': 'Fm7',
         'chord2': 'G',
-        'records': [26, 33, 49, 55, 56, 63, 49, 55, 56, 62],
+        'records': [],
       },
       // {
       //   'chord1': 'Fm7',
@@ -227,10 +234,6 @@ class Pairs extends React.Component {
   render() {
 
     let availableChords = this.availableChords();
-    let addPair;
-    if (availableChords.left.length >= 2) {
-      addPair = <PairAdd onClick={ this.addPair } />
-    }
 
     let storedPairs = this.state.currentPairs.map((currentPair, index) => {
       return (
@@ -246,19 +249,26 @@ class Pairs extends React.Component {
     if (this.state.dispState == dispStates.PAIRS) {
       return (
         <div>
-          <Menu addPairFn={ this.addPair } />
+          <Menu>
+            <Menu.item title={'Add pair'} onClick={ this.addPair } />
+            <Menu.item title={'Reset'} onClick={ this.reset } />
+          </Menu>
           <div className="pairs">
             { storedPairs }
-            { addPair }
           </div>
         </div>
       );
     }
     else if (this.state.dispState == dispStates.PAIR_NEW) {
       return (
-        <div className="chord-pair-choose" >
-          <Chord.chordChoose availableChords={ availableChords.left }  selectedChord={ this.state.selectedChords.left }  onClick={ this.chordSelected } displayPosition={ 'left' } />
-          <Chord.chordChoose availableChords={ availableChords.right } selectedChord={ this.state.selectedChords.right } onClick={ this.chordSelected } displayPosition={ 'right' } cancelFn={ this.cancelAddPair } />
+        <div>
+          <Menu>
+            <Menu.item title={'Cancel'} onClick={ this.cancelAddPair } />
+          </Menu>
+          <div className="chord-pair-choose" >
+            <Chord.chordChoose availableChords={ availableChords.left }  selectedChord={ this.state.selectedChords.left }  onClick={ this.chordSelected } displayPosition={ 'left' } />
+            <Chord.chordChoose availableChords={ availableChords.right } selectedChord={ this.state.selectedChords.right } onClick={ this.chordSelected } displayPosition={ 'right' } />
+          </div>
         </div>
       );
     }

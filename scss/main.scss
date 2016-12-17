@@ -11,22 +11,41 @@
 
 @import 'typography';
 
+$z-index-menu: 10;
+
 $gray: #888;
 $light-gray: #eee;
 $light-blue: #9ce7ff;
 $rose: #f2c6ff;
 
+$menu-height: 2rem;
 $pair-height: 3rem;
 
 body {
   background: white;
 }
 
+.menu {
+  position: fixed;
+  z-index: $z-index-menu;
+  top: 0;
+  width: 100%;
+  display: flex;
+  background: $light-gray;
+}
+
+.menu__item {
+  height: $menu-height;
+  padding: 0.3rem;
+}
+
+.menu__item--title {
+  flex: 1 0 auto;
+  font-weight: bold;
+}
 
 .pairs {
-
-//  overflow-x: scroll;
-//  overflow-y: visible;
+  margin-top: $menu-height;
 
 }
 

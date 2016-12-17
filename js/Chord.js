@@ -13,40 +13,39 @@ export default class Chord extends React.Component {
     );
   }
 
-}
+  static allChords() {
+    return [
+      'Am',
+      'B7',
+      'C',
+      'C7',
+      'D',
+      'Dm',
+      'E',
+      'Em',
+      'F',
+      'Fm7',
+      'G',
+      'G7'
+    ];
+  }
 
-export function allChords() {
-  return [
-    'Am',
-    'B7',
-    'C',
-    'C7',
-    'D',
-    'Dm',
-    'E',
-    'Em',
-    'F',
-    'Fm7',
-    'G',
-    'G7'
-  ];
-}
+  static chordChoose(props) {
+    let availableChords = props.availableChords.map((chord, index) => {
+      return (
+        <Chord
+          key={ index + '_' + chord }
+          chordName={ chord }
+          className={ props.selectedChord == chord ? 'chord--selected' : '' } />
+      );
+    });
 
-export function chordChoose(props) {
-
-  let availableChords = props.availableChords.map((chord, index) => {
     return (
-      <Chord
-        key={ index + '_' + chord }
-        chordName={ chord }
-        className={ props.selectedChord == chord ? 'chord--selected' : '' } />
+      <div className='chord-choose' onClick={ props.onClick } data-display-position={ props.displayPosition }>
+      { props.cancelFn ? <div className='chord' onClick={ props.cancelFn }>X</div> : ''}
+      { availableChords }
+      </div>
     );
-  });
+  }
 
-  return (
-    <div className='chord-choose' onClick={ props.onClick } data-display-position={ props.displayPosition }>
-    { props.cancelFn ? <div className='chord' onClick={ props.cancelFn }>X</div> : ''}
-    { availableChords }
-    </div>
-  );
 }

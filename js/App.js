@@ -1,5 +1,6 @@
 import React from 'react';
-import * as Chord from './Chord';
+import Chord from './Chord';
+import Menu from './Menu';
 
 const dispStates = {
   PAIRS: 'PAIRS',
@@ -51,9 +52,9 @@ class Pairs extends React.Component {
     this.setState({ dispState: dispStates.PAIRS });
   }
 
-  // addPair = () => {
-  //   this.setState({ dispState: dispStates.PAIR_NEW });
-  // }
+  addPair = () => {
+    this.setState({ dispState: dispStates.PAIR_NEW, selectedChords: {left: '', right: ''} });
+  }
 
   createNewPair = (chordName1, chordName2) => {
     let newPairs = this.state.currentPairs.slice();
@@ -228,7 +229,7 @@ class Pairs extends React.Component {
     let availableChords = this.availableChords();
     let addPair;
     if (availableChords.left.length >= 2) {
-      addPair = <PairAdd onClick={ () => { this.setState({ dispState: dispStates.PAIR_NEW, selectedChords: {left: '', right: ''} }); } } />
+      addPair = <PairAdd onClick={ this.addPair } />
     }
 
     let storedPairs = this.state.currentPairs.map((currentPair, index) => {
@@ -244,9 +245,12 @@ class Pairs extends React.Component {
 
     if (this.state.dispState == dispStates.PAIRS) {
       return (
-        <div className="pairs">
-          { storedPairs }
-          { addPair }
+        <div>
+          <Menu addPairFn={ this.addPair } />
+          <div className="pairs">
+            { storedPairs }
+            { addPair }
+          </div>
         </div>
       );
     }

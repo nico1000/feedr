@@ -28,6 +28,7 @@ class Pairs extends React.Component {
       dispState: dispStates.PAIRS,
       currentPairs: this.getStoredPairs(),
       selectedChords: { left: '', right: '' },
+      currentPair: null,
     };
 
   }
@@ -168,8 +169,18 @@ class Pairs extends React.Component {
   }
 
 
-  addRecord = () => {
-    console.log('addRecord()');
+  addRecord = (e) => {
+    console.log('addRecord');
+    let chordIndex = e.target.closest('.pair').dataset['chordIndex'];
+    this.setState({
+      dispState: dispStates.PAIR_RECORD,
+      currentPair: chordIndex,
+    });
+  }
+
+  cancelAddRecord = (e) => {
+    console.log('cancelAddRecord');
+    this.setState({ dispState: dispStates.PAIRS });
   }
 
   reset = () => {
@@ -239,6 +250,7 @@ class Pairs extends React.Component {
       return (
         <Pair
           key={ index + '_' + currentPair.chord1 + currentPair.chord2 }
+          chordIndex={ index }
           chord1={ currentPair.chord1 }
           chord2={ currentPair.chord2 }
           records={ currentPair.records }
@@ -274,7 +286,13 @@ class Pairs extends React.Component {
     }
     else if (this.state.dispState == dispStates.PAIR_RECORD) {
       return (
-        <div className="pair__record" >
+        <div>
+          <Menu>
+            <Menu.item title={'Cancel'} onClick={ this.cancelAddRecord } />
+          </Menu>
+          <div className="chord-pair-record" >
+            Hello! { this.state.currentPair }
+          </div>
         </div>
       );
     }
@@ -288,7 +306,7 @@ class Pairs extends React.Component {
 
 function Pair(props) {
   return (
-    <div className="pair">
+    <div className="pair" data-chord-index={ props.chordIndex }>
       <PairChords chord1={ props.chord1 } chord2={ props.chord2 } />
       <PairRecords records={ props.records } addRecord={ props.addRecord } />
     </div>

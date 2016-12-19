@@ -1,6 +1,7 @@
 import React from 'react';
 import Chord from './Chord';
 import Menu from './Menu';
+import Countdown from './Countdown';
 
 const dispStates = {
   PAIRS: 'PAIRS',
@@ -35,27 +36,10 @@ class Pairs extends React.Component {
 
   componentWillMount = () => {
     window.addEventListener('keydown', this.handleKeydown);
-
-    $.delegate(document.body,'animationstart','.pair-record', this.animationEventHandler);
-  }
-
-  animationEventHandler = (e) => {
-    console.log('animationEventHandler');
-    console.log(e.type);
-
-    if (e.animationName == 'record-pair-countdown') {
-      setInterval(this.countdown.bind(this, -1, e.elapsedTime), 1000);
-    }
-  }
-
-  countdown = (direction, elapsedTime) => {
-    console.log(direction + ' ' + elapsedTime);
   }
 
   componentWillUnmount = () => {
     window.removeEventListener('keydown', this.handleKeydown);
-
-    $.unbind(document.body, this.animationEventHandler);
   }
 
   handleKeydown = (e) => {
@@ -307,15 +291,9 @@ class Pairs extends React.Component {
           <Menu>
             <Menu.item title={'Cancel'} onClick={ this.cancelAddRecord } />
           </Menu>
-          <div className="pair-record" >
-            <div className="columns-container pair-record__chords" >
-              <Chord.chordsColumn chords={ [this.state.currentPairs[this.state.currentPair].chord1] } displayPosition={ 'left' } />
-              <Chord.chordsColumn chords={ [this.state.currentPairs[this.state.currentPair].chord2] } displayPosition={ 'right' } />
-            </div>
-            <div className="pair-record__info">
-              <span className="pair-record__time">hello</span>
-            </div>
-          </div>
+          <Countdown
+            chord1={ this.state.currentPairs[this.state.currentPair].chord1 }
+            chord2={ this.state.currentPairs[this.state.currentPair].chord2 } />
         </div>
       );
     }

@@ -16,7 +16,7 @@ $z-index-menu: 10;
 $gray: #888;
 $light-gray: #eee;
 $light-blue: #9ce7ff;
-$rose: #f2c6ff;
+$blue: #6ecffc;
 
 $menu-height: 2rem;
 $pair-height: 3rem;
@@ -87,7 +87,7 @@ body {
   flex-wrap: no-wrap;
   align-items: center;
 
-  background-color: $rose;
+  background-color: $blue;
 }
 
 .pair__record {
@@ -128,11 +128,11 @@ body {
   }
 
   .columns-container--select-chords &:hover {
-    background-color: $rose;
+    background-color: $blue;
   }
 }
 
-.pair-record {
+.countdown {
   position: relative;
   overflow: hidden;
 
@@ -146,30 +146,38 @@ body {
     position: absolute;
     height: 100%;
 
-    animation: 5s linear record-pair-before-start, 60s linear 5s record-pair-countdown;
+    animation: 5s linear countdown-get-ready, 60s linear 5s countdown;
     animation-fill-mode: forwards;
   }
 }
 
-.pair-record__chords {
+.countdown__chords {
   position: relative;
+  flex: 1 1 40%;
+
+  display: flex;
+  align-items: center;
+
+  .chord {
+    flex: 1 0 50%;
+  }
 }
 
-.pair-record__info {
+.countdown__info {
   position: relative;
-  flex: 1 0 auto;
+  flex: 1 0 60%;
 
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.pair-record__time {
+.countdown__time {
   font-size: 16vw;
   font-weight: bold;
 }
 
-@keyframes record-pair-before-start {
+@keyframes countdown-get-ready {
   from {
     width: 100%;
     background-color: #444;
@@ -180,7 +188,7 @@ body {
   }
 }
 
-@keyframes record-pair-countdown {
+@keyframes countdown {
   0% {
     width: 0%;
     background-color: yellow;

@@ -100,10 +100,13 @@ body {
 }
 
 .columns-container {
-  height: 100vh;
   display: flex;
-  position: relative;
 }
+
+.columns-container--select-chords {
+  height: 100%;
+}
+
 
 .chords-column {
   flex: 1 0 50%;
@@ -129,9 +132,13 @@ body {
   }
 }
 
-.chord-pair-record {
+.pair-record {
   position: relative;
   overflow: hidden;
+
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 
   &::before {
     content: '';
@@ -142,6 +149,24 @@ body {
     animation: 5s linear record-pair-before-start, 60s linear 5s record-pair-countdown;
     animation-fill-mode: forwards;
   }
+}
+
+.pair-record__chords {
+  position: relative;
+}
+
+.pair-record__info {
+  position: relative;
+  flex: 1 0 auto;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pair-record__time {
+  font-size: 16vw;
+  font-weight: bold;
 }
 
 @keyframes record-pair-before-start {

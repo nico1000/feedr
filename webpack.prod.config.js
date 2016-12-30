@@ -4,7 +4,9 @@ var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-config.devtool = 'source-map';
+config.debug = false;
+
+config.devtool = 'hidden-source-map';
 
 config.output = {
   path: path.resolve('./prod/build/'),

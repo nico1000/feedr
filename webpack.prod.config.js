@@ -1,11 +1,13 @@
+'use strict';
 var config = require('./webpack.config.js');
 var path = require('path');
+var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 config.devtool = 'source-map';
 
 config.output = {
-  path: path.resolve('./build/'),
+  path: path.resolve('./prod/build/'),
   // filename: '[name]-[hash].js',
   filename: '[name].js',
 };
@@ -30,7 +32,15 @@ config.module.loaders = [
 ];
 
 config.plugins = [
-  new ExtractTextPlugin('[name].css')
+  new ExtractTextPlugin('[name].css'),
+  new webpack.DefinePlugin({
+    'process.env': {
+      NODE_ENV: JSON.stringify('production')
+    }
+  }),
+  new webpack.optimize.UglifyJsPlugin()
+
 ];
+
 
 module.exports = config;

@@ -1,11 +1,13 @@
 'use strict';
+var path = require('path');
 
 module.exports = {
   devtool: 'inline-source-map',
   entry: "./js/main.js",
   output: {
-    path: __dirname,
-    filename: "./bundle.js"
+    path: path.resolve('.'),
+    // filename: '[name]-[hash].js',
+    filename: '[name].js',
   },
   module: {
     loaders: [

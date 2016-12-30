@@ -1,0 +1,24 @@
+
+.chords-column {
+  flex: 1 0 50%;
+
+  overflow: scroll;
+  display: flex;
+  flex-direction: column;
+}
+
+.chord {
+  flex: 0 0 6rem;
+  text-align: center;
+  line-height: 6rem;
+  font-size: 8vw;
+  font-weight: $font-weight-bold;
+
+  .columns-container--select-chords &--selected {
+    background-color: $light-blue;
+  }
+
+  .columns-container--select-chords &:hover {
+    background-color: $blue;
+  }
+}

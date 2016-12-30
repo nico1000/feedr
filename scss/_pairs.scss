@@ -1,0 +1,61 @@
+
+.pairs {
+}
+
+.pair {
+  display: flex;
+
+  height: $pair-height;
+  line-height: $pair-height;
+
+  font-weight: $font-weight-bold;
+  text-align: center;
+}
+
+.pair__chords {
+  position: sticky;
+  left: 0;
+  display: flex;
+
+  flex: 0 0 8rem;
+
+  justify-content: space-around;
+  align-items: stretch;
+
+  background: $light-blue;
+}
+
+.pair__chord {
+  flex: 1 0 auto;
+}
+
+.pair__add {
+  flex: 1 0 auto;
+  background-color: $light-gray;
+}
+
+.pair__records {
+  display: flex;
+  flex-wrap: no-wrap;
+  align-items: center;
+
+  background-color: $blue;
+}
+
+.pair__record {
+  width: 3rem;
+
+  &--add {
+    cursor: pointer;
+    font-size: 1em;
+  }
+}
+
+
+.columns-container {
+  display: flex;
+}
+
+.columns-container--select-chords {
+  height: 100%;
+}

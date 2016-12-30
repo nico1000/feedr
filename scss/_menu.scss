@@ -1,0 +1,20 @@
+.menu {
+  position: fixed;
+  z-index: $z-index-menu;
+  top: 0;
+  width: 100%;
+  display: flex;
+  background: $light-gray;
+}
+
+.menu__item {
+  height: $menu-height;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+}
+
+.menu__item--title {
+  flex: 1 0 auto;
+  font-weight: bold;
+  cursor: default;
+}

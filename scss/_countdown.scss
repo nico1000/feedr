@@ -1,0 +1,72 @@
+.countdown {
+  position: relative;
+  overflow: hidden;
+
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    height: 100%;
+  }
+
+  &--start-animation {
+      &::before {
+        animation: 5s linear countdown-get-ready, 60s linear 5s countdown;
+        animation-fill-mode: forwards;
+      }
+  }
+
+}
+
+
+.countdown__chords {
+  position: relative;
+  flex: 1 1 40%;
+
+  display: flex;
+  align-items: center;
+
+  .chord {
+    flex: 1 0 50%;
+  }
+}
+
+.countdown__info {
+  position: relative;
+  flex: 1 0 60%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.countdown__time {
+  font-size: 16vw;
+  font-weight: bold;
+}
+
+@keyframes countdown-get-ready {
+  from {
+    width: 100%;
+    background-color: #444;
+  }
+  to {
+    width: 0%;
+    background-color: #ccc;
+  }
+}
+
+@keyframes countdown {
+  0% {
+    width: 0%;
+    background-color: yellow;
+  }
+  100% {
+    width: 100%;
+    background-color: red;
+  }
+}

@@ -15,7 +15,7 @@
 
   &--start-animation {
       &::before {
-        animation: 5s linear countdown-get-ready, 5s linear 5s countdown;
+        animation: 5s linear countdown-get-ready, 60s linear 5s countdown;
         animation-fill-mode: forwards;
       }
   }

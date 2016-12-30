@@ -49,7 +49,7 @@ export default class Countdown extends React.Component {
   }
 
   updateTime = () => {
-    if (this.state.time >= 5) {
+    if (this.state.time >= (process.env.NODE_ENV == 'production' ? 60 : 5)) {
       clearInterval(this.interval);
       this.setState({ running: false });
     }

@@ -15,7 +15,7 @@
 
   &--start-animation {
       &::before {
-        animation: 5s linear countdown-get-ready, 60s linear 5s countdown;
+        animation: 5s linear countdown-get-ready, 5s linear 5s countdown;
         animation-fill-mode: forwards;
       }
   }
@@ -25,7 +25,7 @@
 
 .countdown__chords {
   position: relative;
-  flex: 1 1 40%;
+  flex: 0 1 40%;
 
   display: flex;
   align-items: center;
@@ -37,16 +37,27 @@
 
 .countdown__info {
   position: relative;
-  flex: 1 0 60%;
+  flex: 1 0 auto;
 
   display: flex;
   justify-content: center;
   align-items: center;
+
+  font-size: 5rem;
+  font-weight: bold;
 }
 
 .countdown__time {
-  font-size: 16vw;
-  font-weight: bold;
+}
+
+.countdown__result {
+  max-width: 10rem;
+  text-align: center;
+}
+
+.countdown__icon {
+  margin-left: 2rem;
+  cursor: pointer;
 }
 
 @keyframes countdown-get-ready {
@@ -67,6 +78,6 @@
   }
   100% {
     width: 100%;
-    background-color: red;
+    background-color: $pink;
   }
 }

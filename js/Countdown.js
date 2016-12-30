@@ -50,7 +50,7 @@ export default class Countdown extends React.Component {
   }
 
   updateTime = () => {
-    if (this.state.time >= 10) {
+    if (this.state.time >= 5) {
       clearInterval(this.interval);
       this.setState({ running: false });
     }

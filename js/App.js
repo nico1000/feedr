@@ -170,8 +170,8 @@ class Pairs extends React.Component {
   }
 
 
-  addRecord = (e) => {
-    console.log('addRecord');
+  startCountdown = (e) => {
+    console.log('startCountdown');
     let chordIndex = e.target.closest('.pair').dataset['chordIndex'];
     this.setState({
       dispState: dispStates.PAIR_RECORD,
@@ -179,8 +179,8 @@ class Pairs extends React.Component {
     });
   }
 
-  cancelAddRecord = (e) => {
-    console.log('cancelAddRecord');
+  cancelCountdown = (e) => {
+    console.log('cancelCountdown');
     this.setState({ dispState: dispStates.PAIRS });
   }
 
@@ -255,7 +255,7 @@ class Pairs extends React.Component {
           chord1={ currentPair.chord1 }
           chord2={ currentPair.chord2 }
           records={ currentPair.records }
-          addRecord={ this.addRecord } />
+          startCountdown={ this.startCountdown } />
       );
     });
 
@@ -263,8 +263,8 @@ class Pairs extends React.Component {
       return (
         <div>
           <Menu>
-            <Menu.item title={'Add pair'} onClick={ this.addPair } />
-            <Menu.item title={'Reset'} onClick={ this.reset } />
+            <Menu.item title={<span><i className="fa fa-plus" ></i> Add pair</span>} onClick={ this.addPair } />
+            <Menu.item title={<span><i className="fa fa-ban" ></i> Reset</span>} onClick={ this.reset } />
           </Menu>
           <div className="pairs">
             { storedPairs }
@@ -276,7 +276,7 @@ class Pairs extends React.Component {
       return (
         <div>
           <Menu>
-            <Menu.item title={'Cancel'} onClick={ this.cancelAddPair } />
+            <Menu.item title={<span><i className="fa fa-times" ></i> Cancel</span>} onClick={ this.cancelAddPair } />
           </Menu>
           <div className="columns-container columns-container--select-chords" >
             <Chord.chordsColumn chords={ availableChords.left }  selectedChord={ this.state.selectedChords.left }  onClick={ this.chordSelected } displayPosition={ 'left' } />
@@ -289,7 +289,7 @@ class Pairs extends React.Component {
       return (
         <div>
           <Menu>
-            <Menu.item title={'Cancel'} onClick={ this.cancelAddRecord } />
+            <Menu.item title={<span><i className="fa fa-times" ></i> Cancel</span>} onClick={ this.cancelCountdown } />
           </Menu>
           <Countdown
             chord1={ this.state.currentPairs[this.state.currentPair].chord1 }
@@ -309,7 +309,7 @@ function Pair(props) {
   return (
     <div className="pair" data-chord-index={ props.chordIndex }>
       <PairChords chord1={ props.chord1 } chord2={ props.chord2 } />
-      <PairRecords records={ props.records } addRecord={ props.addRecord } />
+      <PairRecords records={ props.records } startCountdown={ props.startCountdown } />
     </div>
   );
 }
@@ -339,7 +339,7 @@ function PairRecords(props) {
   return (
     <div className="pair__records">
       { records }
-      <div className="pair__record pair__record--add" onClick={ props.addRecord } ><i className="fa fa-clock-o"></i></div>
+      <div className="pair__record pair__record--add" onClick={ props.startCountdown } ><i className="fa fa-clock-o"></i></div>
     </div>
   );
 }

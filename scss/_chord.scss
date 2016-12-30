@@ -10,9 +10,22 @@
 .chord {
   flex: 0 0 6rem;
   text-align: center;
-  line-height: 6rem;
   font-size: 8vw;
   font-weight: $font-weight-bold;
+
+  padding: 1rem 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  [data-display-position='left'] &:nth-child(2n + 0) {
+    background-color: $light-gray;
+  }
+
+  [data-display-position='right'] &:nth-child(2n + 1) {
+    background-color: $light-gray;
+  }
 
   .columns-container--select-chords &--selected {
     background-color: $light-blue;
@@ -21,4 +34,7 @@
   .columns-container--select-chords &:hover {
     background-color: $blue;
   }
+}
+
+.chord__name {
 }

@@ -24,7 +24,7 @@
  */
 
 module.exports = (function chords(){
-    
+
     //Constants
     var NO_FINGER = '-';
     var THUMB = 'T';
@@ -36,7 +36,7 @@ module.exports = (function chords(){
     var MUTED = -1;
     var FRET_COUNT = 5;
     var FONT_NAME = "'Raleway'";
-    
+
     var ChordBoxImage = function(name, chord, fingers, size) {
 
         //Fields
@@ -50,7 +50,7 @@ module.exports = (function chords(){
         };
         var Font = function(fname, size) {
             return function(){
-                _ctx.font = size+"px "+fname;
+                _ctx.font = "bold "+size+"px "+fname;
                 _ctx.textBaseline = 'top';
             };
         };
@@ -136,7 +136,7 @@ module.exports = (function chords(){
         var _backgroundBrush = '#FFF';
 
         var _baseFret;
-        
+
         var InitializeSizes = function() {
             _fretWidth = 4 * _size;
             _nutHeight = _fretWidth / 2;
@@ -171,7 +171,7 @@ module.exports = (function chords(){
             _signWidth = (_fretWidth * 0.75);
             _signRadius = _signWidth / 2;
         };
-        
+
         var getWidth = function(){return _imageWidth;};
         var getHeight = function(){return _imageHeight;};
 
@@ -218,11 +218,11 @@ module.exports = (function chords(){
                 }
             }
         };
-        
-        
+
+
         var CreateImage = function(ctx) {
             _ctx = ctx;
-            _graphics.FillRectangle(_backgroundBrush, 0, 0, _imageWidth, _imageHeight);
+            // _graphics.FillRectangle(_backgroundBrush, 0, 0, _imageWidth, _imageHeight);
             if (_error) {
                 //Draw red x
                 var errorPen = Pen('red', 3);
@@ -236,7 +236,7 @@ module.exports = (function chords(){
                 DrawBars();
             }
         };
-        
+
         var DrawChordBox = function() {
             var pen = Pen(_foregroundBrush, _lineWidth);
             var totalFretWidth = _fretWidth + _lineWidth;
@@ -257,7 +257,7 @@ module.exports = (function chords(){
                 _graphics.FillRectangle(_foregroundBrush, _xstart - _lineWidth / 2, _ystart - nutHeight, _boxWidth, nutHeight);
             }
         };
-        
+
         var DrawBars = function() {
             var bars = {};
             var bar;
@@ -369,7 +369,7 @@ module.exports = (function chords(){
                 _graphics.DrawString(_baseFret + "fr", fretFont, _foregroundBrush, _xstart + _boxWidth + 0.4 * _fretWidth, _ystart - offset);
             }
         }
-        
+
         //MAIN
         if (name == null || typeof name == 'undefined') {
             _chordName = "";
@@ -380,38 +380,45 @@ module.exports = (function chords(){
         ParseFingers(fingers);
         ParseSize(size);
         InitializeSizes();
-        
+
         return {
             getWidth: getWidth,
             getHeight: getHeight,
             Draw: CreateImage
         };
 
-    };  
-    
+    };
+
     //requires jQuery
-    //example: <chord name="A" positions="X02220" fingers="--222-" size="7" ></chord>
-    var ReplaceChordElements = function() {
-          var chords = document.getElementsByTagName('chord')
+    //old example: <chord name="A" positions="X02220" fingers="--222-" size="7" ></chord>
+    //new example: <div data-chord-image data-name="A" data-positions="X02220" data-fingers="--222-" data-size="7" />
+    var ReplaceAllChordElements = function() {
+          var chords = document.querySelectorAll('[data-chord-image]')
           for(var i=0; i<chords.length; ++i) {
             var elt = chords[i];
-            var name = elt.getAttribute('name');
-            var positions = elt.getAttribute('positions');
-            var fingers = elt.getAttribute('fingers');
-            var size = elt.getAttribute('size');
-            var chord = ChordBoxImage(name, positions, fingers, size);
-            var canvas = document.createElement('canvas')
-            canvas.setAttribute('width', chord.getWidth())
-            canvas.setAttribute('height', chord.getHeight())
-            elt.parentNode.insertBefore(canvas, elt);
-            var ctx = canvas.getContext('2d');
-            chord.Draw(ctx);
+            ReplaceChordElement(elt);
         };
     };
-      
+
+    var ReplaceChordElement = function(elt) {
+        var name = elt.dataset['chordName'];
+        var positions = elt.dataset['positions'];
+        var fingers = elt.dataset['fingers'];
+        var size = elt.dataset['size'];
+        var chord = ChordBoxImage(name, positions, fingers, size);
+        var canvas = document.createElement('canvas')
+        canvas.setAttribute('width', chord.getWidth())
+        canvas.setAttribute('height', chord.getHeight())
+        elt.parentNode.insertBefore(canvas, elt);
+        var ctx = canvas.getContext('2d');
+        chord.Draw(ctx);
+    };
+
+
     return {
         chord: ChordBoxImage,
-        replace: ReplaceChordElements,
+        replaceAll: ReplaceAllChordElements,
+        replace: ReplaceChordElement,
     };
 
 })();

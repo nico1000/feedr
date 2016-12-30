@@ -53,7 +53,6 @@ class Pairs extends React.Component {
   }
 
   cancelAddPair = (e) => {
-    console.log('cancelAddPair');
     e.stopPropagation();
     this.setState({ dispState: dispStates.PAIRS });
   }
@@ -145,8 +144,7 @@ class Pairs extends React.Component {
   }
 
   chordSelected = (e) => {
-
-    let chordName = e.target.dataset['chordName'];
+    let chordName = e.target.closest('.chord').dataset['chordName'];
     let position = e.currentTarget.dataset['displayPosition'];
 
     // init with previous values
@@ -192,7 +190,6 @@ class Pairs extends React.Component {
   }
 
   deleteRepetition = (e) => {
-    console.log('deleteRepetition');
     let recordIndex = e.target.dataset['recordIndex'];
     let chordIndex = e.target.closest('.pair').dataset['chordIndex'];
 

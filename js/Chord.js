@@ -1,4 +1,5 @@
 import React from 'react';
+import drawChords from './drawChords';
 
 export default class Chord extends React.Component {
   constructor(props) {
@@ -6,11 +7,19 @@ export default class Chord extends React.Component {
   }
 
   render() {
+    var chordImage = <div className='chord__image' ref={ this.drawChord } data-chord-name={ this.props.chordName } data-positions="xx0232" data-fingers="---132" data-size="4" />;
+
     return (
       <div className={ 'chord ' + this.props.className} data-chord-name={ this.props.chordName } >
-        { this.props.chordName }
+        { chordImage }
       </div>
     );
+  }
+
+  drawChord(element) {
+    if (element) {
+      drawChords.replace(element);
+    }
   }
 
   static allChords() {

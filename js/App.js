@@ -35,14 +35,18 @@ class Pairs extends React.Component {
   }
 
   componentWillMount = () => {
-    window.addEventListener('keydown', this.handleKeydown);
+    window.addEventListener('keydown', this.keydown);
+    window.addEventListener('touchstart', this.touchstart);
+    window.addEventListener('touchend', this.touchend);
   }
 
   componentWillUnmount = () => {
-    window.removeEventListener('keydown', this.handleKeydown);
+    window.removeEventListener('keydown', this.keydown);
+    window.removeEventListener('touchstart', this.touchstart);
+    window.removeEventListener('touchend', this.touchend);
   }
 
-  handleKeydown = (e) => {
+  keydown = (e) => {
     if (e.key == 'Escape' && this.state.dispState == dispStates.PAIR_NEW) {
       this.setState({ dispState: dispStates.PAIRS });
     }
@@ -169,6 +173,36 @@ class Pairs extends React.Component {
     });
   }
 
+  touchstart = (e) => {
+    this.longTouch = false;
+    this.longTouchTimeout = setTimeout(() => {
+      this.longTouch = true;
+    }, 1000);
+  }
+
+  touchend = (e) => {
+    if (this.longTouch) {
+      if (e.target.classList.contains('pair__record') && e.target.dataset.hasOwnProperty('recordIndex')) {
+          this.deleteRepetition(e);
+      }
+
+    }
+    this.longTouch = false;
+    clearTimeout(this.longTouchTimeout);
+  }
+
+  deleteRepetition = (e) => {
+    console.log('deleteRepetition');
+    let recordIndex = e.target.dataset['recordIndex'];
+    let chordIndex = e.target.closest('.pair').dataset['chordIndex'];
+
+    const updatedPairs = this.state.currentPairs.slice();
+    updatedPairs[chordIndex].records.splice(recordIndex, 1);
+
+    this.setState({
+      currentPairs: updatedPairs
+    });
+  }
 
   startCountdown = (e) => {
     let chordIndex = e.target.closest('.pair').dataset['chordIndex'];
@@ -269,7 +303,6 @@ class Pairs extends React.Component {
           chord1={ currentPair.chord1 }
           chord2={ currentPair.chord2 }
           records={ currentPair.records }
-          deleteRepetitionFn={ this.deleteRepetition }
           startCountdown={ this.startCountdown } />
       );
     });
@@ -333,22 +366,17 @@ function Pair(props) {
 function PairChords(props) {
   return (
     <div className="pair__chords">
-      <PairChord chordName={ props.chord1 } />
-      <PairChord chordName={ props.chord2 } />
+      <div className="pair__chord">{ props.chord1 }</div>
+      <div className="pair__chord">{ props.chord2 }</div>
     </div>
   );
 }
 
-function PairChord(props) {
-  return (
-    <div className="pair__chord">{ props.chordName }</div>
-  )
-}
 
 function PairRecords(props) {
   let records = props.records.map((repetitions, index) => {
     return (
-      <PairRecord key={ index } repetitions={ repetitions } />
+      <div key={ index } data-record-index={ index } className="pair__record">{ repetitions }</div>
     );
   });
 
@@ -358,12 +386,6 @@ function PairRecords(props) {
       <div className="pair__record pair__record--add" onClick={ props.startCountdown } ><i className="fa fa-clock-o"></i></div>
     </div>
   );
-}
-
-function PairRecord(props) {
-  return (
-    <div className="pair__record">{ props.repetitions }</div>
-  )
 }
 
 function PairAdd(props) {

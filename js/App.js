@@ -6,7 +6,7 @@ import Countdown from './Countdown';
 const dispStates = {
   PAIRS: 'PAIRS',
   PAIR_NEW: 'PAIR_NEW',
-  PAIR_RECORD: 'PAIR_RECORD',
+  PAIR_COUNTDOWN: 'PAIR_COUNTDOWN',
 };
 
 export default class App extends React.Component {
@@ -171,17 +171,31 @@ class Pairs extends React.Component {
 
 
   startCountdown = (e) => {
-    console.log('startCountdown');
     let chordIndex = e.target.closest('.pair').dataset['chordIndex'];
     this.setState({
-      dispState: dispStates.PAIR_RECORD,
+      dispState: dispStates.PAIR_COUNTDOWN,
       currentPair: chordIndex,
     });
   }
 
   cancelCountdown = (e) => {
-    console.log('cancelCountdown');
     this.setState({ dispState: dispStates.PAIRS });
+  }
+
+  saveCountdown = (e) => {
+    e.preventDefault();
+
+    let repetitions = parseInt($('.countdown__result').value, 10);
+    if (repetitions > 0) {
+      const updatedPairs = this.state.currentPairs.slice();
+      updatedPairs[this.state.currentPair].records.push(repetitions);
+
+      this.setState({
+        currentPairs: updatedPairs,
+        dispState: dispStates.PAIRS
+      });
+      this.storePairs(updatedPairs);
+    }
   }
 
   reset = () => {
@@ -255,6 +269,7 @@ class Pairs extends React.Component {
           chord1={ currentPair.chord1 }
           chord2={ currentPair.chord2 }
           records={ currentPair.records }
+          deleteRepetitionFn={ this.deleteRepetition }
           startCountdown={ this.startCountdown } />
       );
     });
@@ -285,7 +300,7 @@ class Pairs extends React.Component {
         </div>
       );
     }
-    else if (this.state.dispState == dispStates.PAIR_RECORD) {
+    else if (this.state.dispState == dispStates.PAIR_COUNTDOWN) {
       return (
         <div>
           <Menu>
@@ -293,7 +308,8 @@ class Pairs extends React.Component {
           </Menu>
           <Countdown
             chord1={ this.state.currentPairs[this.state.currentPair].chord1 }
-            chord2={ this.state.currentPairs[this.state.currentPair].chord2 } />
+            chord2={ this.state.currentPairs[this.state.currentPair].chord2 }
+            saveFn={ this.saveCountdown } />
         </div>
       );
     }

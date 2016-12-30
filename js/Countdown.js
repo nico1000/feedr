@@ -18,12 +18,11 @@ export default class Countdown extends React.Component {
       </div>
     ) : (
       <div className="countdown__info">
-        <input type="number" className="countdown__result" />
-        <div className="countdown__icon countdown__icon--save">
+        <form onSubmit={ this.props.saveFn } >
+          <input type="number" className="countdown__result" />
+        </form>
+        <div className="countdown__icon countdown__icon--save" onClick={ this.props.saveFn } >
           <i className="fa fa-floppy-o" />
-        </div>
-        <div className="countdown__icon countdown__icon--delete">
-          <i className="fa fa-trash" />
         </div>
       </div>
     );

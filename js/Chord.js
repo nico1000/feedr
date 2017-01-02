@@ -37,25 +37,27 @@ export default class Chord extends React.Component {
 
     return {
       // beginner open chords
-      'D':    { positions: 'xx0232', fingers: '---132' },
-      'A':    { positions: 'x02220', fingers: '--213-' },
-      'E':    { positions: '022100', fingers: '-231--' },
-      'G':    { positions: '320003', fingers: '21---3' },
-      'C':    { positions: 'x32010', fingers: '-32-1-' },
-      'Am':   { positions: 'x02210', fingers: '--321-' },
-      'Em':   { positions: '022000', fingers: '-23---' },
-      'Dm':   { positions: 'xx0231', fingers: '---231' },
+      'D':      { positions: 'xx0232', fingers: '---132' },
+      'A':      { positions: 'x02220', fingers: '--213-' },
+      'E':      { positions: '022100', fingers: '-231--' },
+      'G':      { positions: '320003', fingers: '21---3' },
+      'C':      { positions: 'x32010', fingers: '-32-1-' },
+      'Am':     { positions: 'x02210', fingers: '--321-' },
+      'Em':     { positions: '022000', fingers: '-23---' },
+      'Dm':     { positions: 'xx0231', fingers: '---231' },
 
       // dominant 7th open chords
-      'G7':   { positions: '320001', fingers: '32---1' },
-      'C7':   { positions: 'x32310', fingers: '-3241-' },
-      'B7':   { positions: 'x21202', fingers: '-213-4' },
-      'A7':   { positions: 'x02020', fingers: '--1-2-' },
-      'D7':   { positions: 'xx0212', fingers: '---213' },
-      'E7':   { positions: '020100', fingers: '-2-1--' },
+      'G_7':    { positions: '320001', fingers: '32---1' },
+      'C_7':    { positions: 'x32310', fingers: '-3241-' },
+      'B_7':    { positions: 'x21202', fingers: '-213-4' },
+      'A_7':    { positions: 'x02020', fingers: '--1-2-' },
+      'D_7':    { positions: 'xx0212', fingers: '---213' },
+      'E_7':    { positions: '020100', fingers: '-2-1--' },
 
-      'F':    { positions: '133211', fingers: '134211' },
-      'A_5':  { positions: '577655', fingers: '134211' },
+      'F':      { positions: '133211', fingers: '134211' },
+      'Fmaj7':  { positions: 'xx3210', fingers: '--321-' },
+
+      // suspended open chords
 
     }
   }

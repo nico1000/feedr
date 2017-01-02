@@ -250,26 +250,26 @@ class Pairs extends React.Component {
   getStoredPairs() {
     // default if no saved values available
     let defaultPairs = [
-      {
-        'chord1': 'Am',
-        'chord2': 'C',
-        'records': [],
-      },
-      {
-        'chord1': 'Fm7',
-        'chord2': 'Am',
-        'records': [],
-      },
-      {
-        'chord1': 'Am',
-        'chord2': 'G',
-        'records': [],
-      },
-      {
-        'chord1': 'Fm7',
-        'chord2': 'G',
-        'records': [],
-      },
+      // {
+      //   'chord1': 'Am',
+      //   'chord2': 'C',
+      //   'records': [],
+      // },
+      // {
+      //   'chord1': 'Fm7',
+      //   'chord2': 'Am',
+      //   'records': [],
+      // },
+      // {
+      //   'chord1': 'Am',
+      //   'chord2': 'G',
+      //   'records': [],
+      // },
+      // {
+      //   'chord1': 'Fm7',
+      //   'chord2': 'G',
+      //   'records': [],
+      // },
       // {
       //   'chord1': 'Fm7',
       //   'chord2': 'C',

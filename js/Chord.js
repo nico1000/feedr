@@ -62,26 +62,9 @@ export default class Chord extends React.Component {
     }
   }
 
-
-
   static allChordNames() {
     let allChords = this.allChords();
     return Object.keys(allChords);
-
-    return [
-      'Am',
-      'B7',
-      'C',
-      'C7',
-      'D',
-      'Dm',
-      'E',
-      'Em',
-      'F',
-      'Fm7',
-      'G',
-      'G7'
-    ];
   }
 
   static chordsColumn(props) {

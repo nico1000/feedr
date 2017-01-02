@@ -6,26 +6,44 @@ export default class Countdown extends React.Component {
     super(props);
 
     this.state = {
+      started: true,
       running: true,
       time: -5
     };
   }
   render() {
 
-    const countdownInfo = this.state.running ? (
-      <div className="countdown__info">
-        <span className="countdown__time">{ Math.abs(this.state.time) }</span>
-      </div>
-    ) : (
-      <div className="countdown__info">
-        <form onSubmit={ this.props.saveFn } >
-          <input type="number" className="countdown__result" />
-        </form>
-        <div className="countdown__icon countdown__icon--save" onClick={ this.props.saveFn } >
-          <i className="fa fa-floppy-o" />
+    let countdownInfo;
+
+    if (this.state.started == false) {
+      countdownInfo = (
+        <div className="countdown__info">
+          <div className="countdown__icon countdown__icon--save" onClick={ this.props.saveFn } >
+            <i className="fa fa-clock" />
+          </div>
         </div>
-      </div>
-    );
+
+      );
+    }
+    else if (this.state.running == true) {
+      countdownInfo = (
+        <div className="countdown__info">
+          <span className="countdown__time">{ Math.abs(this.state.time) }</span>
+        </div>
+      );
+    }
+    else {
+      countdownInfo = (
+        <div className="countdown__info">
+          <form onSubmit={ this.props.saveFn } >
+            <input type="number" className="countdown__result" />
+          </form>
+          <div className="countdown__icon countdown__icon--save" onClick={ this.props.saveFn } >
+            <i className="fa fa-floppy-o" />
+          </div>
+        </div>
+      );
+    }
 
     return (
       <div className="countdown">

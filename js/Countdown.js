@@ -44,7 +44,7 @@ export default class Countdown extends React.Component {
           <div className="countdown__icon countdown__icon--save" onClick={ this.props.saveFn } >
             <i className="fa fa-floppy-o" />
           </div>
-          <audio autoPlay="true" src="sound/countdown-over.mp3"></audio>
+          <audio autoPlay="true" src={`media/countdown-over-${ Math.floor(Math.random() * 14) + 1 }.mp3`}></audio>
         </div>
       );
     }

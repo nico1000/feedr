@@ -355,9 +355,9 @@ class Pairs extends React.Component {
 
 function Pair(props) {
   return (
-    <div className="pair" data-chord-index={ props.chordIndex }>
+    <div className="pair" data-chord-index={ props.chordIndex } onClick={ props.showCountdown }>
       <PairChords chord1={ props.chord1 } chord2={ props.chord2 } />
-      <PairRecords records={ props.records } showCountdown={ props.showCountdown } />
+      <PairRecords records={ props.records } />
     </div>
   );
 }
@@ -382,19 +382,9 @@ function PairRecords(props) {
   return (
     <div className="pair__records">
       { records }
-      <div className="pair__record pair__record--add" onClick={ props.showCountdown } ><i className="fa fa-clock-o"></i></div>
+      <div className="pair__record pair__record--add" ><i className="fa fa-clock-o"></i></div>
     </div>
   );
-}
-
-function PairAdd(props) {
-  return (
-    <div className="pair">
-      <div className="pair__chords">
-        <div className="pair__add" onClick={ props.onClick }>Add pair!</div>
-      </div>
-    </div>
-  )
 }
 
 

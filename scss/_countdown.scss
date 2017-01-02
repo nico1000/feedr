@@ -26,7 +26,7 @@
   flex: 1 0 65%;
 
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
 
   .chord {
@@ -56,7 +56,7 @@
 }
 
 .countdown__icon {
-  margin: 0 2rem;
+  margin: 0 1.5rem;
   cursor: pointer;
 }
 
@@ -72,7 +72,7 @@
     flex-direction: column;
   }
   .countdown__icon {
-    margin: 2rem 0;
+    margin: 0.5rem 0;
   }
 }
 

@@ -21,7 +21,6 @@ $.ready().then(function(){
   console.log('hello there react!');
   ReactDOM.render(<App />, $('#root'));
 
-
 });
 
 function fontsHaveLoaded() {
@@ -29,4 +28,3 @@ function fontsHaveLoaded() {
   // so they can be used on canvas
   // drawChords.replace();
 }
-

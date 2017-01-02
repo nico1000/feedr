@@ -62,6 +62,19 @@ module.exports = (function chords(){
                 _ctx.lineTo(x2, y2);
                 _ctx.stroke();
             };
+
+            var DrawArc = function(pen, rectStartX, rectStartY, rectLengthX, rectLengthY, startAngle, endAngle) {
+              var centerX = rectStartX + rectLengthX / 2;
+              var radiusX = rectLengthX / 2;
+              var centerY = rectStartY + rectLengthY / 2;
+              var radiusY = rectLengthY / 2;
+              _ctx.beginPath();
+              pen();
+              //void ctx.ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise);
+              _ctx.ellipse(centerX, centerY, radiusX, radiusY, 0, startAngle / 180 * Math.PI, endAngle / 180 * Math.PI, true);
+              _ctx.stroke();
+            };
+
             var FillRectangle = function(color, x1, y1, x2, y2){
                 _ctx.beginPath();
                 _ctx.fillStyle = color;
@@ -95,6 +108,7 @@ module.exports = (function chords(){
             };
             return {
                 DrawLine: DrawLine,
+                DrawArc: DrawArc,
                 FillRectangle: FillRectangle,
                 DrawCircle: DrawCircle,
                 FillCircle: FillCircle,
@@ -275,17 +289,30 @@ module.exports = (function chords(){
                 }
             }
 
-            //TODO: figure out why there are two pens here
-            var pen = Pen(_foregroundBrush, _lineWidth * 3);
             var totalFretWidth = _fretWidth + _lineWidth;
+
+            var arcWidth = _dotWidth / 7;
+            var pen = Pen(_foregroundBrush, arcWidth);
+            var pen2 = Pen(_foregroundBrush, 1.3 * arcWidth);
+
             for (var b in bars) {
                 if (bars.hasOwnProperty(b)){
                     bar = bars[b];
-                    var xstart = _xstart + bar['Str'] * totalFretWidth;
-                    var xend = xstart + bar['Length'] * totalFretWidth;
-                    var y = _ystart + (bar['Pos'] - _baseFret + 1) * totalFretWidth - (totalFretWidth / 2);
-                    pen = Pen(_foregroundBrush, _dotWidth / 2);
-                    _graphics.DrawLine(pen, xstart, y, xend, y);
+                    var yOffset = 0;
+                    if (bar['Pos'] == 1) {
+                      yOffset = -0.3 * totalFretWidth;
+                    }
+
+                    var xstart = _xstart + bar['Str'] * totalFretWidth - (_dotWidth / 2);
+                    var y = _ystart + (bar['Pos'] - _baseFret) * totalFretWidth - (0.6 * totalFretWidth) + yOffset;
+                    // _graphics.DrawLine(pen, xstart, y, xend, y);
+
+                    var barWidth = bar.Length * totalFretWidth + _dotWidth;
+
+                    _graphics.DrawArc(pen, xstart, y, barWidth, totalFretWidth, -1, -178);
+                    _graphics.DrawArc(pen2, xstart, y - arcWidth, barWidth, totalFretWidth + arcWidth, -4, -172);
+                    _graphics.DrawArc(pen2, xstart, y - 1.5 * arcWidth, barWidth, totalFretWidth + 3 * arcWidth, -20, -150);
+
                 }
             }
         };

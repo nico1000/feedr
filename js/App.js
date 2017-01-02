@@ -76,7 +76,7 @@ class Pairs extends React.Component {
 
 
   allPairs() {
-    let allChords = Chord.allChords();
+    let allChords = Chord.allChordNames();
     let allPairs = [];
 
     for (let i = 0; i < allChords.length - 1; i++ ) {
@@ -126,7 +126,7 @@ class Pairs extends React.Component {
       right: [],
     }
 
-    let allChords = Chord.allChords();
+    let allChords = Chord.allChordNames();
 
     allChords.forEach((chord, index) => {
       let pairsWithChord = this.countPairsWithChord(this.state.currentPairs, chord);

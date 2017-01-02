@@ -432,13 +432,26 @@ module.exports = (function chords(){
         var positions = elt.dataset['positions'];
         var fingers = elt.dataset['fingers'];
         var size = elt.dataset['size'];
-        var chord = ChordBoxImage(name, positions, fingers, size);
-        var canvas = document.createElement('canvas')
-        canvas.setAttribute('width', chord.getWidth())
-        canvas.setAttribute('height', chord.getHeight())
-        elt.parentNode.insertBefore(canvas, elt);
+        var canvas = document.createElement('canvas');
         var ctx = canvas.getContext('2d');
+        var devicePixelRatio = window.devicePixelRatio || 1,
+            backingStoreRatio = ctx.webkitBackingStorePixelRatio ||
+                                    ctx.mozBackingStorePixelRatio ||
+                                    ctx.msBackingStorePixelRatio ||
+                                    ctx.oBackingStorePixelRatio ||
+                                    ctx.backingStorePixelRatio || 1,
+            ratio = devicePixelRatio / backingStoreRatio;
+
+        // increase chord by pixel density ratio
+        var chord = ChordBoxImage(name, positions, fingers, size * ratio);
+
+        elt.parentNode.insertBefore(canvas, elt);
+        canvas.setAttribute('width', chord.getWidth());
+        canvas.setAttribute('height', chord.getHeight());
         chord.Draw(ctx);
+        // decrease again to get original size
+        canvas.setAttribute('style', `width: ${chord.getWidth() / ratio}; height: ${chord.getHeight() / ratio};`);
+
     };
 
 

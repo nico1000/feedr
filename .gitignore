@@ -1,4 +1,4 @@
 node_modules/
 .DS_Store
 prod/build/
-.local
+fabfile.py

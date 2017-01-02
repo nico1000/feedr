@@ -6,8 +6,8 @@ export default class Countdown extends React.Component {
     super(props);
 
     this.state = {
-      started: true,
-      running: true,
+      started: false,
+      running: false,
       time: -5
     };
   }
@@ -18,8 +18,11 @@ export default class Countdown extends React.Component {
     if (this.state.started == false) {
       countdownInfo = (
         <div className="countdown__info">
-          <div className="countdown__icon countdown__icon--save" onClick={ this.props.saveFn } >
-            <i className="fa fa-clock" />
+          <div className="countdown__icon" onClick={ this.props.saveFn } >
+            <i className="fa fa-clock-o" />
+          </div>
+          <div className="countdown__icon" onClick={ this.props.saveFn } >
+            <i className="fa fa-times" />
           </div>
         </div>
 

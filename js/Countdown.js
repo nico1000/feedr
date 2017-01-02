@@ -36,10 +36,18 @@ export default class Countdown extends React.Component {
       );
     }
     else {
+      let selectOptions = Array(80).fill(1).map((index, item) => {
+        return (
+          <option key={ item } value={ item } >{ item }</option>
+        );
+      });
+
       countdownInfo = (
         <div className="countdown__info">
           <form onSubmit={ this.props.saveFn } >
-            <input type="number" className="countdown__result" />
+            <select className="countdown__result" defaultValue="40">
+              { selectOptions }
+            </select>
           </form>
           <div className="countdown__icon countdown__icon--save" onClick={ this.props.saveFn } >
             <i className="fa fa-floppy-o" />

@@ -1,9 +1,16 @@
 $z-index-menu: 10;
 
-$menu-height: 3rem;
+$menu-height: 2rem;
+$menu-height-medium: 3rem;
+
 $pair-height: 4rem;
 
 body {
   background: white;
   padding-top: $menu-height;
+
+  @include breakpoint(medium) {
+    padding-top: $menu-height-medium;
+  }
+
 }

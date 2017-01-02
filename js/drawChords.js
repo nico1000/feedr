@@ -450,7 +450,7 @@ module.exports = (function chords(){
         canvas.setAttribute('height', chord.getHeight());
         chord.Draw(ctx);
         // decrease again to get original size
-        canvas.setAttribute('style', `width: ${chord.getWidth() / ratio}; height: ${chord.getHeight() / ratio};`);
+        canvas.setAttribute('style', `width: ${chord.getWidth() / ratio}px; height: ${chord.getHeight() / ratio}px;`);
 
     };
 

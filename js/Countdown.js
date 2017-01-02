@@ -31,7 +31,7 @@ export default class Countdown extends React.Component {
     else if (this.state.running == true) {
       countdownInfo = (
         <div className="countdown__info">
-          <span className="countdown__time">{ Math.abs(this.state.time) }</span>
+          <div className="countdown__time">{ Math.abs(this.state.time) }</div>
         </div>
       );
     }

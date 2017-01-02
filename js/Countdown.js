@@ -18,10 +18,10 @@ export default class Countdown extends React.Component {
     if (this.state.started == false) {
       countdownInfo = (
         <div className="countdown__info">
-          <div className="countdown__icon" onClick={ this.props.saveFn } >
+          <div className="countdown__icon" onClick={ this.startCountdown } >
             <i className="fa fa-clock-o" />
           </div>
-          <div className="countdown__icon" onClick={ this.props.saveFn } >
+          <div className="countdown__icon" onClick={ this.props.cancelFn } >
             <i className="fa fa-times" />
           </div>
         </div>
@@ -60,13 +60,21 @@ export default class Countdown extends React.Component {
   }
 
   componentDidMount() {
-    this.interval = setInterval(this.updateTime, 1000);
-    $('.countdown').classList.add('countdown--start-animation');
   }
 
   componentWillUnmount() {
     console.log('bye');
     clearInterval(this.interval);
+  }
+
+  startCountdown = () => {
+    this.interval = setInterval(this.updateTime, 1000);
+    $('.countdown').classList.add('countdown--start-animation');
+
+    this.setState({
+      started: true,
+      running: true,
+    })
   }
 
   updateTime = () => {

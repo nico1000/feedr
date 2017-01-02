@@ -201,7 +201,7 @@ class Pairs extends React.Component {
     });
   }
 
-  startCountdown = (e) => {
+  showCountdown = (e) => {
     let chordIndex = e.target.closest('.pair').dataset['chordIndex'];
     this.setState({
       dispState: dispStates.PAIR_COUNTDOWN,
@@ -300,7 +300,7 @@ class Pairs extends React.Component {
           chord1={ currentPair.chord1 }
           chord2={ currentPair.chord2 }
           records={ currentPair.records }
-          startCountdown={ this.startCountdown } />
+          showCountdown={ this.showCountdown } />
       );
     });
 
@@ -339,7 +339,9 @@ class Pairs extends React.Component {
           <Countdown
             chord1={ this.state.currentPairs[this.state.currentPair].chord1 }
             chord2={ this.state.currentPairs[this.state.currentPair].chord2 }
-            saveFn={ this.saveCountdown } />
+            saveFn={ this.saveCountdown }
+            cancelFn={ this.cancelCountdown }
+          />
         </div>
       );
     }
@@ -355,7 +357,7 @@ function Pair(props) {
   return (
     <div className="pair" data-chord-index={ props.chordIndex }>
       <PairChords chord1={ props.chord1 } chord2={ props.chord2 } />
-      <PairRecords records={ props.records } startCountdown={ props.startCountdown } />
+      <PairRecords records={ props.records } showCountdown={ props.showCountdown } />
     </div>
   );
 }
@@ -380,7 +382,7 @@ function PairRecords(props) {
   return (
     <div className="pair__records">
       { records }
-      <div className="pair__record pair__record--add" onClick={ props.startCountdown } ><i className="fa fa-clock-o"></i></div>
+      <div className="pair__record pair__record--add" onClick={ props.showCountdown } ><i className="fa fa-clock-o"></i></div>
     </div>
   );
 }

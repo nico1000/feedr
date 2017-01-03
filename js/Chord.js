@@ -58,7 +58,17 @@ export default class Chord extends React.Component {
       'Fmaj_7': { positions: 'xx3210', fingers: '--321-' },
 
       // suspended open chords
+      'Asus2':  { positions: 'x02200', fingers: '--12--' },
+      'Asus4':  { positions: 'x02230', fingers: '--124-' },
+      'Dsus2':  { positions: 'xx0230', fingers: '---13-' },
+      'Dsus4':  { positions: 'xx0233', fingers: '---134' },
+      'Esus2':  { positions: '024400', fingers: '-134--' },
+      'Esus4':  { positions: '022200', fingers: '-234--' },
 
+      // slash chords
+      'D/F#':   { positions: '2x0232', fingers: '---132' },
+      'G/B':    { positions: 'x20003', fingers: '-2---4' },
+      'C/G':    { positions: '332010', fingers: '342010' },
     }
   }
 

@@ -387,7 +387,7 @@ module.exports = (function chords(){
             }
             _graphics.DrawString(name, nameFont, _foregroundBrush, xTextStart, 0.2 * _superScriptFontSize);
             if (supers != "") {
-                _graphics.DrawString(supers, superFont, _foregroundBrush, xTextStart + 0.8 * stringSize.Width, 0);
+                _graphics.DrawString(supers, superFont, _foregroundBrush, xTextStart + 1 * stringSize.Width, 0);
             }
 
             if (_baseFret > 1) {

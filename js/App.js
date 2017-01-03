@@ -368,10 +368,19 @@ function Pair(props) {
 }
 
 function PairChords(props) {
+  function niceify(chordName) {
+    var splitted = chordName.split('_');
+    if (splitted.length == 1) {
+      return <span>{ chordName }</span>;
+    } else {
+      return <span>{ splitted[0] }<sup>{ splitted[1] }</sup></span>
+    }
+  }
+
   return (
     <div className="pair__chords">
-      <div className="pair__chord">{ props.chord1 }</div>
-      <div className="pair__chord">{ props.chord2 }</div>
+      <div className="pair__chord">{ niceify(props.chord1) }</div>
+      <div className="pair__chord">{ niceify(props.chord2) }</div>
     </div>
   );
 }

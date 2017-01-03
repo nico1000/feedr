@@ -55,7 +55,7 @@ export default class Chord extends React.Component {
       'E_7':    { positions: '020100', fingers: '-2-1--' },
 
       'F':      { positions: '133211', fingers: '134211' },
-      'Fmaj7':  { positions: 'xx3210', fingers: '--321-' },
+      'Fmaj_7': { positions: 'xx3210', fingers: '--321-' },
 
       // suspended open chords
 

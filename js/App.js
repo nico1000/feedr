@@ -196,6 +196,11 @@ class Pairs extends React.Component {
     const updatedPairs = this.state.currentPairs.slice();
     updatedPairs[chordIndex].records.splice(recordIndex, 1);
 
+    // if it was the last record, delete the pair as well
+    if (updatedPairs[chordIndex].records.length == 0) {
+        updatedPairs.splice(chordIndex, 1);
+    }
+
     this.setState({
       currentPairs: updatedPairs
     });

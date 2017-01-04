@@ -329,8 +329,8 @@ class Pairs extends React.Component {
             <Menu.item title={<span><i className="fa fa-times" ></i> Cancel</span>} onClick={ this.cancelAddPair } />
           </Menu>
           <div className="columns-container columns-container--select-chords" >
-            <Chord.chordsColumn chords={ availableChords.left }  selectedChord={ this.state.selectedChords.left }  onClick={ this.chordSelected } displayPosition={ 'left' } />
-            <Chord.chordsColumn chords={ availableChords.right } selectedChord={ this.state.selectedChords.right } onClick={ this.chordSelected } displayPosition={ 'right' } />
+            <Chord.chordsColumn chords={ availableChords.left }  selectedChord={ this.state.selectedChords.left }  chordSelectedFn={ this.chordSelected } displayPosition={ 'left' } />
+            <Chord.chordsColumn chords={ availableChords.right } selectedChord={ this.state.selectedChords.right } chordSelectedFn={ this.chordSelected } displayPosition={ 'right' } />
           </div>
         </div>
       );

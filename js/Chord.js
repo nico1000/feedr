@@ -90,7 +90,7 @@ export default class Chord extends React.Component {
     });
 
     return (
-      <div className='chords-column' onClick={ props.onClick } data-display-position={ props.displayPosition }>
+      <div className='chords-column' onClick={ props.chordSelectedFn } data-display-position={ props.displayPosition }>
         { chords }
       </div>
     );

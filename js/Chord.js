@@ -20,6 +20,7 @@ export default class Chord extends React.Component {
 
     return (
       <div className={ 'chord ' + this.props.chordName} data-chord-name={ this.props.chordName } >
+        <div>{ Chord.nicePrint(this.props.chordName) }</div>
         { chordImage }
       </div>
     );
@@ -69,7 +70,7 @@ export default class Chord extends React.Component {
       'D/F#':       { positions: '2x0232', fingers: '---132' },
       'G/B':        { positions: 'x20003', fingers: '-2---4' },
       'C/G':        { positions: '332010', fingers: '342010' },
-      'Fmaj_7/C':   { positions: 'x33210', fingers: '-3421-' },
+      'Fmaj_7_/C':  { positions: 'x33210', fingers: '-3421-' },
     }
   }
 
@@ -93,6 +94,17 @@ export default class Chord extends React.Component {
         { chords }
       </div>
     );
+  }
+
+  static nicePrint(chordName) {
+    var splitted = chordName.split('_');
+    if (splitted.length == 1) {
+      return <span>{ chordName }</span>;
+    } else if (splitted.length == 2) {
+      return <span>{ splitted[0] }<sup>{ splitted[1] }</sup></span>
+    } else {
+      return <span>{ splitted[0] }<sup>{ splitted[1] }</sup>{ splitted[2] }</span>
+    }
   }
 
 }

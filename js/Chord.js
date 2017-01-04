@@ -19,7 +19,7 @@ export default class Chord extends React.Component {
     );
 
     return (
-      <div className={ 'chord ' + this.props.chordName} data-chord-name={ this.props.chordName } >
+      <div className={ 'chord ' + this.props.className} data-chord-name={ this.props.chordName } >
         <div>{ Chord.nicePrint(this.props.chordName) }</div>
         { chordImage }
       </div>

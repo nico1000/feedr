@@ -24,12 +24,12 @@
 
   justify-content: space-around;
   align-items: stretch;
-
-  background: $light-blue;
 }
 
 .pair__chord {
   flex: 1 0 auto;
+
+  background-color: $turquois;
 }
 
 .pair__add {
@@ -42,7 +42,7 @@
   flex-wrap: no-wrap;
   align-items: center;
 
-  background-color: $blue;
+  background-color: $green;
 }
 
 .pair__record {

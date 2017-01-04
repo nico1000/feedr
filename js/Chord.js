@@ -11,7 +11,7 @@ export default class Chord extends React.Component {
       <div
         className='chord__image'
         ref={ this.drawChord }
-        data-chord-name={ this.props.chordName }
+        data-chord-name=''
         data-positions={ Chord.allChords()[this.props.chordName].positions }
         data-fingers={ Chord.allChords()[this.props.chordName].fingers }
         data-size="4"

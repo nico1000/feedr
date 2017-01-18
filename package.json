@@ -1,7 +1,7 @@
 {
-  "name": "chords",
+  "name": "feedr",
   "version": "0.0.1",
-  "description": "guitar chords trainer",
+  "description": "feeding timer",
   "main": "bundle.js",
   "scripts": {
     "start": "webpack-dev-server --progress --colors --hot --inline",
@@ -30,6 +30,7 @@
     "file-loader": "^0.9.0",
     "font-awesome": "^4.7.0",
     "foundation-sites": "^6.2.4",
+    "postcss-loader": "^1.2.2",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "url-loader": "^0.5.7",

@@ -3,6 +3,8 @@ import Chord from './Chord';
 import Menu from './Menu';
 import Feeding from './Feeding';
 
+import DateFormat from 'dateformat';
+
 const dispStates = {
   LIST: 'LIST',
   FEEDING: 'FEEDING',
@@ -344,7 +346,7 @@ class Feedr extends React.Component {
 function Feed(props) {
   return (
     <div className="feed" data-feed-index={ props.feedIndex }>
-      <div>Start: { props.startTime.toString() }</div>
+      <div>Start: { DateFormat(props.startTime, "dd.mm.yy, HH:MM") }</div>
     </div>
   );
 }

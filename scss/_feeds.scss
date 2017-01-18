@@ -1,10 +1,11 @@
 
-.feeds {
+.feeds, .feeds-add {
   font-size: 1.5rem;
 }
 
 .feed {
   display: flex;
+  justify-content: space-between;
 
   height: $pair-height;
   line-height: $pair-height;
@@ -15,12 +16,48 @@
   cursor: pointer;
 }
 
+.feed__start {
+  flex: 0 0 50%;
+  background-color: $lighter-turquois;
+}
+
+.feed__side {
+  flex: 1 0 auto;
+  background-color: $lightest-turquois;
+
+  &--L { background-color: $light-orange; }
+  &--R { background-color: $light-red; }
+}
+
+.feed__duration {
+  flex: 0 0 30%;
+  background-color: $turquois;
+}
+
+.feeds-add {
+  display: flex;
+  justify-content: space-between;
+
+  height: $pair-height;
+  line-height: $pair-height;
+
+  font-weight: $font-weight-bold;
+  text-align: center;
+
+  cursor: pointer;
+}
+
+.feeds-add__start {
+  flex: 1 1 50%;
+  &--L { background-color: $light-orange; }
+  &--R { background-color: $light-red; }
+}
+
 .pair__chords {
   position: sticky;
   left: 0;
   display: flex;
 
-  flex: 0 0 10rem;
 
   justify-content: space-around;
   align-items: stretch;

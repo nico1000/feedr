@@ -304,6 +304,10 @@ class Feedr extends React.Component {
           <div className="feeds">
             { storedFeeds }
           </div>
+          <div className="feeds-add">
+            <div className="feeds-add__start feeds-add__start--L">Start L</div>
+            <div className="feeds-add__start feeds-add__start--R">Start R</div>
+          </div>
         </div>
       );
     }
@@ -346,7 +350,9 @@ class Feedr extends React.Component {
 function Feed(props) {
   return (
     <div className="feed" data-feed-index={ props.feedIndex }>
-      <div>Start: { DateFormat(props.startTime, "dd.mm.yy, HH:MM") }</div>
+      <div className="feed__start">{ DateFormat(props.startTime, "HH:MM") }</div>
+      <div className={"feed__side feed__side--" + props.side }>{ props.side }</div>
+      <div className="feed__duration">{ props.duration + '’' }</div>
     </div>
   );
 }

@@ -1,7 +1,6 @@
 import React from 'react';
-import Chord from './Chord';
 
-export default class Countdown extends React.Component {
+export default class Feeding extends React.Component {
   constructor(props) {
     super(props);
 

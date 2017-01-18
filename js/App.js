@@ -1,9 +1,11 @@
 import React from 'react';
 import Chord from './Chord';
 import Menu from './Menu';
-import Countdown from './Countdown';
+import Feeding from './Feeding';
 
 const dispStates = {
+  LIST: 'LIST',
+  FEEDING: 'FEEDING',
   PAIRS: 'PAIRS',
   PAIR_NEW: 'PAIR_NEW',
   PAIR_COUNTDOWN: 'PAIR_COUNTDOWN',
@@ -15,21 +17,20 @@ export default class App extends React.Component {
   }
   render() {
       return (
-        <Pairs />
+        <Feedr />
       );
   }
 
 }
 
-class Pairs extends React.Component {
+
+class Feedr extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      dispState: dispStates.PAIRS,
-      currentPairs: this.getStoredPairs(),
-      selectedChords: { left: '', right: '' },
-      currentPair: null,
+      dispState: dispStates.LIST,
+      currentFeeds: this.getStoredFeeds(),
     };
 
   }
@@ -47,9 +48,9 @@ class Pairs extends React.Component {
   }
 
   keydown = (e) => {
-    if (e.key == 'Escape' && this.state.dispState == dispStates.PAIR_NEW) {
-      this.setState({ dispState: dispStates.PAIRS });
-    }
+    // if (e.key == 'Escape' && this.state.dispState == dispStates.PAIR_NEW) {
+    //   this.setState({ dispState: dispStates.PAIRS });
+    // }
   }
 
   cancelAddPair = (e) => {
@@ -62,7 +63,7 @@ class Pairs extends React.Component {
   }
 
   createNewPair = (chordName1, chordName2) => {
-    let newPairs = this.state.currentPairs.slice();
+    let newPairs = this.state.currentFeeds.slice();
 
     newPairs.push({
       'chord1': chordName1,
@@ -70,8 +71,8 @@ class Pairs extends React.Component {
       'records': [],
     });
 
-    this.setState({ currentPairs: newPairs });
-    this.storePairs(newPairs);
+    this.setState({ currentFeeds: newPairs });
+    this.storeFeeds(newPairs);
   }
 
 
@@ -110,7 +111,7 @@ class Pairs extends React.Component {
     }
 
     let result = false;
-    this.state.currentPairs.forEach((pair) => {
+    this.state.currentFeeds.forEach((pair) => {
         if ((pair.chord1 == chord1 && pair.chord2 == chord2) ||
             (pair.chord2 == chord1 && pair.chord1 == chord2) ) {
           result = true;
@@ -129,7 +130,7 @@ class Pairs extends React.Component {
     let allChords = Chord.allChordNames();
 
     allChords.forEach((chord, index) => {
-      let pairsWithChord = this.countPairsWithChord(this.state.currentPairs, chord);
+      let pairsWithChord = this.countPairsWithChord(this.state.currentFeeds, chord);
       if (pairsWithChord < allChords.length - 1 ) {
           if (this.state.selectedChords.right !== chord && !this.pairExists(this.state.selectedChords.right, chord)) {
               availableChords.left.push(chord);
@@ -193,7 +194,7 @@ class Pairs extends React.Component {
     let recordIndex = e.target.dataset['recordIndex'];
     let chordIndex = e.target.closest('.pair').dataset['chordIndex'];
 
-    const updatedPairs = this.state.currentPairs.slice();
+    const updatedPairs = this.state.currentFeeds.slice();
     updatedPairs[chordIndex].records.splice(recordIndex, 1);
 
     // if it was the last record, delete the pair as well
@@ -202,7 +203,7 @@ class Pairs extends React.Component {
     }
 
     this.setState({
-      currentPairs: updatedPairs
+      currentFeeds: updatedPairs
     });
   }
 
@@ -210,7 +211,7 @@ class Pairs extends React.Component {
     let chordIndex = e.target.closest('.pair').dataset['chordIndex'];
     this.setState({
       dispState: dispStates.PAIR_COUNTDOWN,
-      currentPair: chordIndex,
+      currentFeed: chordIndex,
     });
   }
 
@@ -223,101 +224,83 @@ class Pairs extends React.Component {
 
     let repetitions = parseInt($('.countdown__result').value, 10);
     if (repetitions > 0) {
-      const updatedPairs = this.state.currentPairs.slice();
-      updatedPairs[this.state.currentPair].records.push(repetitions);
+      const updatedPairs = this.state.currentFeeds.slice();
+      updatedPairs[this.state.currentFeed].records.push(repetitions);
 
       this.setState({
-        currentPairs: updatedPairs,
+        currentFeeds: updatedPairs,
         dispState: dispStates.PAIRS
       });
-      this.storePairs(updatedPairs);
+      this.storeFeeds(updatedPairs);
     }
   }
 
   reset = () => {
     if (storageAvailable('localStorage')) {
-      delete window.localStorage.pairs;
+      delete window.localStorage.feeds;
     }
 
-    this.setState({ currentPairs: this.getStoredPairs() })
+    this.setState({ currentFeeds: this.getStoredFeeds() })
   }
 
-  storePairs(pairsToStore) {
+  storeFeeds(feedsToStore) {
     if (storageAvailable('localStorage')) {
       console.log('storing into localStorage');
-      window.localStorage.setItem('pairs', JSON.stringify(pairsToStore));
+      window.localStorage.setItem('feeds', JSON.stringify(feedsToStore));
     }
     else {
       console.log('localStorage not available');
     }
   }
 
-  getStoredPairs() {
+  getStoredFeeds() {
     // default if no saved values available
-    let defaultPairs = [
-      // {
-      //   'chord1': 'Am',
-      //   'chord2': 'C',
-      //   'records': [],
-      // },
-      // {
-      //   'chord1': 'Fm7',
-      //   'chord2': 'Am',
-      //   'records': [],
-      // },
-      // {
-      //   'chord1': 'Am',
-      //   'chord2': 'G',
-      //   'records': [],
-      // },
-      // {
-      //   'chord1': 'Fm7',
-      //   'chord2': 'G',
-      //   'records': [],
-      // },
-      // {
-      //   'chord1': 'Fm7',
-      //   'chord2': 'C',
-      //   'records': [26, 33, 49, 55, 56, 62],
-      // },
+    let defaultFeeds = [
+      {
+        'startTime': new Date(2017, 1, 18, 10),
+        'side': 'L',
+        'duration': 30,
+      },
+      {
+        'startTime': new Date(2017, 1, 18, 11,),
+        'side': 'R',
+        'duration': 25,
+      }
+
     ];
 
     if (storageAvailable('localStorage')) {
-      let storedPairsJson = window.localStorage.getItem('pairs');
-      if (storedPairsJson) {
+      let storedFeedsJson = window.localStorage.getItem('feeds');
+      if (storedFeedsJson) {
         console.log('reading from localStorage');
-        return JSON.parse(storedPairsJson);
+        return JSON.parse(storedFeedsJson);
       }
     }
 
-    return defaultPairs;
+    return defaultFeeds;
   }
 
   render() {
 
-    let availableChords = this.availableChords();
-
-    let storedPairs = this.state.currentPairs.map((currentPair, index) => {
+    let storedFeeds = this.state.currentFeeds.map((currentFeed, index) => {
       return (
-        <Pair
-          key={ index + '_' + currentPair.chord1 + currentPair.chord2 }
-          chordIndex={ index }
-          chord1={ currentPair.chord1 }
-          chord2={ currentPair.chord2 }
-          records={ currentPair.records }
-          showCountdown={ this.showCountdown } />
+        <Feed
+          key={ index }
+          feedIndex={ index }
+          startTime={ currentFeed.startTime }
+          side={ currentFeed.side }
+          duration={ currentFeed.duration } />
       );
     });
 
-    if (this.state.dispState == dispStates.PAIRS) {
+    if (this.state.dispState == dispStates.LIST) {
       return (
         <div>
           <Menu>
-            <Menu.item title={<span><i className="fa fa-plus" ></i> Add pair</span>} onClick={ this.addPair } />
             <Menu.item title={<span><i className="fa fa-ban" ></i> Reset</span>} onClick={ this.reset } />
           </Menu>
-          <div className="pairs">
-            { storedPairs }
+          <div className="feeds">
+            { storedFeeds }
           </div>
         </div>
       );
@@ -342,8 +325,8 @@ class Pairs extends React.Component {
             <Menu.item title={<span><i className="fa fa-times" ></i> Cancel</span>} onClick={ this.cancelCountdown } />
           </Menu>
           <Countdown
-            chord1={ this.state.currentPairs[this.state.currentPair].chord1 }
-            chord2={ this.state.currentPairs[this.state.currentPair].chord2 }
+            chord1={ this.state.currentFeeds[this.state.currentFeed].chord1 }
+            chord2={ this.state.currentFeeds[this.state.currentFeed].chord2 }
             saveFn={ this.saveCountdown }
             cancelFn={ this.cancelCountdown }
           />
@@ -358,11 +341,10 @@ class Pairs extends React.Component {
   }
 }
 
-function Pair(props) {
+function Feed(props) {
   return (
-    <div className="pair" data-chord-index={ props.chordIndex } onClick={ props.showCountdown }>
-      <PairChords chord1={ props.chord1 } chord2={ props.chord2 } />
-      <PairRecords records={ props.records } />
+    <div className="feed" data-feed-index={ props.feedIndex }>
+      <div>Start: { props.startTime.toString() }</div>
     </div>
   );
 }

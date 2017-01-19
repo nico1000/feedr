@@ -11,12 +11,12 @@ export default class Feeding extends React.Component {
 
   render() {
     return (
-      <div className={ "feeding feeding--" + this.props.side }>
-        <div className="feeding__side">{ this.props.side }</div>
+      <div className="feeding">
+        <div className={ "feeding__side feeding__side--" + this.props.side }>{ this.props.side }</div>
         <div className="feeding__start-time">
-          <div className="feeding__icon feeding__icon--plus"><i className="fa fa-plus-circle" /></div>
+          <div className="feeding__icon feeding__icon--plus" data-start-time-delta="1" onClick={ this.props.startTimeChangeFn }><i className="fa fa-plus-circle" /></div>
           <div>{ DateFormat(this.props.startTime, "HH:MM") }</div>
-          <div className="feeding__icon feeding__icon--minus"><i className="fa fa-minus-circle" /></div>
+          <div className="feeding__icon feeding__icon--minus" data-start-time-delta="-1" onClick={ this.props.startTimeChangeFn }><i className="fa fa-minus-circle" /></div>
         </div>
 
         <div className="feeding__duration">{ this.prettyDuration() }</div>

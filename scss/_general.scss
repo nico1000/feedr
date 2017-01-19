@@ -6,7 +6,7 @@ $menu-height-medium: 3rem;
 $pair-height: 4rem;
 
 body {
-  background: white;
+  background-color: $anthracite;
   padding-top: $menu-height;
 
   @include breakpoint(medium) {

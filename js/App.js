@@ -169,6 +169,14 @@ class Feedr extends React.Component {
     });
   }
 
+  startTimeChange = (e) => {
+    let delta = parseInt(e.target.closest('.feeding__icon').dataset['startTimeDelta'], 10);
+    let startTimeNew = new Date(this.state.startTime.getTime() + delta * 1000 * 60);
+    this.setState({
+      startTime: startTimeNew,
+    });
+  }
+
 
   showCountdown = (e) => {
     let chordIndex = e.target.closest('.pair').dataset['chordIndex'];
@@ -243,6 +251,7 @@ class Feedr extends React.Component {
     return defaultFeeds;
   }
 
+
   render() {
 
     let storedFeeds = this.state.currentFeeds.map((currentFeed, index) => {
@@ -281,6 +290,7 @@ class Feedr extends React.Component {
           <Feeding
             side={ this.state.side }
             startTime={ this.state.startTime }
+            startTimeChangeFn={ this.startTimeChange }
             saveFn={ this.saveFeeding }
             cancelFn={ this.cancelFeeding }
           />

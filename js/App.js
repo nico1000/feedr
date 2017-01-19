@@ -78,51 +78,6 @@ class Feedr extends React.Component {
   }
 
 
-  allPairs() {
-    let allChords = Chord.allChordNames();
-    let allPairs = [];
-
-    for (let i = 0; i < allChords.length - 1; i++ ) {
-      for (let j = i + 1; j < allChords.length; j++) {
-        allPairs.push({
-          chord1: allChords[i],
-          chord2: allChords[j]
-        });
-      }
-    }
-
-    return allPairs;
-  }
-
-  countPairsWithChord = (pairs, chord) => {
-    let count = 0;
-
-    pairs.forEach((pair) => {
-      if (pair.chord1 == chord || pair.chord2 == chord) {
-        count++;
-      }
-    });
-
-    return count;
-  }
-
-  pairExists = (chord1, chord2) => {
-    // if one of the chords is empty, return immediately
-    if (chord1 == '' || chord2 == '') {
-      return false;
-    }
-
-    let result = false;
-    this.state.currentFeeds.forEach((pair) => {
-        if ((pair.chord1 == chord1 && pair.chord2 == chord2) ||
-            (pair.chord2 == chord1 && pair.chord1 == chord2) ) {
-          result = true;
-        }
-    });
-
-    return result;
-  }
-
 
   touchstart = (e) => {
     this.longTouch = false;
@@ -172,9 +127,14 @@ class Feedr extends React.Component {
   startTimeChange = (e) => {
     let delta = parseInt(e.target.closest('.feeding__icon').dataset['startTimeDelta'], 10);
     let startTimeNew = new Date(this.state.startTime.getTime() + delta * 1000 * 60);
-    this.setState({
-      startTime: startTimeNew,
-    });
+    let now = new Date();
+
+    // only if not in the future
+    if ((now - startTimeNew) > 0) {
+      this.setState({
+        startTime: startTimeNew,
+      });
+    }
   }
 
 
@@ -229,13 +189,13 @@ class Feedr extends React.Component {
     let defaultFeeds = [
       {
         'startTime': new Date(2017, 1, 18, 10),
+        'endTime': new Date(2017, 1, 18, 10, 5),
         'side': 'L',
-        'duration': 30,
       },
       {
-        'startTime': new Date(2017, 1, 18, 11,),
+        'startTime': new Date(2017, 1, 18, 11, 23),
+        'endTime': new Date(2017, 1, 18, 11, 35),
         'side': 'R',
-        'duration': 25,
       }
 
     ];
@@ -260,8 +220,8 @@ class Feedr extends React.Component {
           key={ index }
           feedIndex={ index }
           startTime={ currentFeed.startTime }
-          side={ currentFeed.side }
-          duration={ currentFeed.duration } />
+          endTime={ currentFeed.endTime }
+          side={ currentFeed.side } />
       );
     });
 
@@ -338,7 +298,7 @@ function Feed(props) {
     <div className="feed" data-feed-index={ props.feedIndex }>
       <div className="feed__start">{ DateFormat(props.startTime, "HH:MM") }</div>
       <div className={"feed__side feed__side--" + props.side }>{ props.side }</div>
-      <div className="feed__duration">{ props.duration + '’' }</div>
+      <div className="feed__duration">{ Feeding.prettyDuration(props.startTime, props.endTime) }</div>
     </div>
   );
 }

@@ -5,7 +5,7 @@ export default class Feeding extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      duration: 0,
+      endTime: new Date(),
     }
   }
 
@@ -14,12 +14,12 @@ export default class Feeding extends React.Component {
       <div className="feeding">
         <div className={ "feeding__side feeding__side--" + this.props.side }>{ this.props.side }</div>
         <div className="feeding__start-time">
-          <div className="feeding__icon feeding__icon--plus" data-start-time-delta="1" onClick={ this.props.startTimeChangeFn }><i className="fa fa-plus-circle" /></div>
-          <div>{ DateFormat(this.props.startTime, "HH:MM") }</div>
           <div className="feeding__icon feeding__icon--minus" data-start-time-delta="-1" onClick={ this.props.startTimeChangeFn }><i className="fa fa-minus-circle" /></div>
+          <div>{ DateFormat(this.props.startTime, "HH:MM") }</div>
+          <div className="feeding__icon feeding__icon--plus" data-start-time-delta="1" onClick={ this.props.startTimeChangeFn }><i className="fa fa-plus-circle" /></div>
         </div>
 
-        <div className="feeding__duration">{ this.prettyDuration() }</div>
+        <div className="feeding__duration">{ Feeding.prettyDuration(this.props.startTime, this.state.endTime) }</div>
         <div className="feeding__icons">
           <div className="feeding__icon feeding__icon--save" onClick={ this.props.saveFn } >
             <i className="fa fa-check" />
@@ -42,13 +42,13 @@ export default class Feeding extends React.Component {
 
   updateTime = () => {
     // calculate duration in seconds from milliseconds
-    let duration = Math.floor((new Date() - this.props.startTime) / 1000) ;
-    this.setState({ duration: duration });
+    let endTime = new Date();
+    this.setState({ endTime: endTime });
   }
 
-  prettyDuration = () => {
-    let duration = this.state.duration;
-    if (duration < 60) {
+  static prettyDuration(startTime, endTime) {
+    let duration = Math.floor((endTime - startTime) / 1000);
+    if (Math.abs(duration) < 60) {
       return duration + '’’';
     } else {
       return Math.floor(duration / 60) + '’';

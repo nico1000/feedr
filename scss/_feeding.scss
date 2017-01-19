@@ -1,58 +1,32 @@
-.countdown {
+.feeding {
   position: relative;
   overflow: hidden;
 
   height: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
 
-  &::before {
-    content: '';
-    display: block;
-    position: absolute;
-    height: 100%;
-  }
+  font-size: 3rem;
+  font-weight: bold;
 
-  &--start-animation {
-      &::before {
-        animation: 5s linear countdown-get-ready, 60s linear 5s countdown;
-        animation-fill-mode: forwards;
-      }
-  }
+  &--L { background-color: $light-orange; }
+  &--R { background-color: $light-red; }
 }
 
-.countdown__chords {
-  position: relative;
-  flex: 1 0 65%;
-
+.feeding__start-time {
   display: flex;
   flex-direction: row;
   align-items: center;
-
-  .chord {
-    flex: 1 0 50%;
-  }
+  align-self: stretch;
+  justify-content: space-around;
 }
 
-.countdown__info {
-  position: relative;
-  flex: 1 0 35%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  font-size: 5rem;
-  font-weight: bold;
+.feeding__duration {
+  font-size: 8rem;
 }
 
-
-.countdown__time {
-  display: block;
-  width: 5rem;
-}
-
-.countdown__result {
+.feeding__result {
   font-size: 2rem;
   max-width: 10rem;
   text-align: center;
@@ -62,8 +36,16 @@
   }
 }
 
-.countdown__icon {
-  margin: 0 1.5rem;
+.feeding__icons {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+
+  font-size: 5rem;
+}
+
+.feeding__icon {
+  text-align: center;
   cursor: pointer;
 }
 
@@ -72,13 +54,13 @@
   .countdown {
     flex-direction: row;
   }
-  .countdown__chords {
+  .feeding__chords {
     flex-direction: row;
   }
-  .countdown__info {
+  .feeding__info {
     flex-direction: column;
   }
-  .countdown__icon {
+  .feeding__icon {
     margin: 0.5rem 0;
   }
 }

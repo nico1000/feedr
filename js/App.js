@@ -123,56 +123,6 @@ class Feedr extends React.Component {
     return result;
   }
 
-  availableChords = () => {
-    let availableChords = {
-      left: [],
-      right: [],
-    }
-
-    let allChords = Chord.allChordNames();
-
-    allChords.forEach((chord, index) => {
-      let pairsWithChord = this.countPairsWithChord(this.state.currentFeeds, chord);
-      if (pairsWithChord < allChords.length - 1 ) {
-          if (this.state.selectedChords.right !== chord && !this.pairExists(this.state.selectedChords.right, chord)) {
-              availableChords.left.push(chord);
-          }
-          if (this.state.selectedChords.left !== chord && !this.pairExists(this.state.selectedChords.left, chord)) {
-              availableChords.right.push(chord);
-          }
-      }
-    });
-
-    return availableChords;
-  }
-
-  chordSelected = (e) => {
-    let chordName = e.target.closest('.chord').dataset['chordName'];
-    let position = e.currentTarget.dataset['displayPosition'];
-
-    // init with previous values
-    let newSelection = this.state.selectedChords;
-    let newDispState = this.state.dispState;
-
-    // if same as already selected do deselect
-    if (chordName == this.state.selectedChords[position]) {
-      chordName = '';
-    }
-
-    newSelection[position] = chordName;
-
-    // check if now complete pair is selected
-    if (newSelection.left != '' && newSelection.right != '') {
-        this.createNewPair(newSelection.left, newSelection.right);
-        newSelection = { left: '', right: '' };
-        newDispState = dispStates.PAIRS;
-    }
-
-    this.setState({
-      selectedChords: newSelection,
-      dispState: newDispState,
-    });
-  }
 
   touchstart = (e) => {
     this.longTouch = false;
@@ -209,6 +159,17 @@ class Feedr extends React.Component {
     });
   }
 
+  startFeeding = (e) => {
+    let side = e.target.dataset['side'];
+    let startTime = new Date();
+    this.setState({
+      dispState: dispStates.FEEDING,
+      side: side,
+      startTime: startTime,
+    });
+  }
+
+
   showCountdown = (e) => {
     let chordIndex = e.target.closest('.pair').dataset['chordIndex'];
     this.setState({
@@ -217,14 +178,14 @@ class Feedr extends React.Component {
     });
   }
 
-  cancelCountdown = (e) => {
-    this.setState({ dispState: dispStates.PAIRS });
+  cancelFeeding = (e) => {
+    this.setState({ dispState: dispStates.LIST });
   }
 
-  saveCountdown = (e) => {
+  saveFeeding = (e) => {
     e.preventDefault();
 
-    let repetitions = parseInt($('.countdown__result').value, 10);
+    let repetitions = parseInt($('.feeding__result').value, 10);
     if (repetitions > 0) {
       const updatedPairs = this.state.currentFeeds.slice();
       updatedPairs[this.state.currentFeed].records.push(repetitions);
@@ -305,9 +266,24 @@ class Feedr extends React.Component {
             { storedFeeds }
           </div>
           <div className="feeds-add">
-            <div className="feeds-add__start feeds-add__start--L">Start L</div>
-            <div className="feeds-add__start feeds-add__start--R">Start R</div>
+            <div className="feeds-add__start feeds-add__start--L" data-side="L" onClick={ this.startFeeding }>Start L</div>
+            <div className="feeds-add__start feeds-add__start--R" data-side="R" onClick={ this.startFeeding }>Start R</div>
           </div>
+        </div>
+      );
+    }
+    else if (this.state.dispState == dispStates.FEEDING) {
+      return (
+        <div>
+          <Menu>
+            <Menu.item title={<span><i className="fa fa-times" ></i> Cancel</span>} onClick={ this.cancelFeeding } />
+          </Menu>
+          <Feeding
+            side={ this.state.side }
+            startTime={ this.state.startTime }
+            saveFn={ this.saveFeeding }
+            cancelFn={ this.cancelFeeding }
+          />
         </div>
       );
     }
@@ -328,13 +304,13 @@ class Feedr extends React.Component {
       return (
         <div>
           <Menu>
-            <Menu.item title={<span><i className="fa fa-times" ></i> Cancel</span>} onClick={ this.cancelCountdown } />
+            <Menu.item title={<span><i className="fa fa-times" ></i> Cancel</span>} onClick={ this.cancelFeeding } />
           </Menu>
           <Countdown
             chord1={ this.state.currentFeeds[this.state.currentFeed].chord1 }
             chord2={ this.state.currentFeeds[this.state.currentFeed].chord2 }
-            saveFn={ this.saveCountdown }
-            cancelFn={ this.cancelCountdown }
+            saveFn={ this.saveFeeding }
+            cancelFn={ this.cancelFeeding }
           />
         </div>
       );

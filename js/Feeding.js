@@ -1,96 +1,57 @@
 import React from 'react';
+import DateFormat from 'dateformat';
 
 export default class Feeding extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      started: false,
-      running: false,
-      time: -5
-    };
+      duration: 0,
+    }
   }
+
   render() {
+    return (
+      <div className={ "feeding feeding--" + this.props.side }>
+        <div className="feeding__side">{ this.props.side }</div>
+        <div className="feeding__start-time">
+          <div className="feeding__icon feeding__icon--plus"><i className="fa fa-plus-circle" /></div>
+          <div>{ DateFormat(this.props.startTime, "HH:MM") }</div>
+          <div className="feeding__icon feeding__icon--minus"><i className="fa fa-minus-circle" /></div>
+        </div>
 
-    let countdownInfo;
-
-    if (this.state.started == false) {
-      countdownInfo = (
-        <div className="countdown__info">
-          <div className="countdown__icon" onClick={ this.startCountdown } >
-            <i className="fa fa-clock-o" />
+        <div className="feeding__duration">{ this.prettyDuration() }</div>
+        <div className="feeding__icons">
+          <div className="feeding__icon feeding__icon--save" onClick={ this.props.saveFn } >
+            <i className="fa fa-check" />
           </div>
-          <div className="countdown__icon" onClick={ this.props.cancelFn } >
+          <div className="feeding__icon feeding__icon--cancel" onClick={ this.props.cancelFn } >
             <i className="fa fa-times" />
           </div>
         </div>
-
-      );
-    }
-    else if (this.state.running == true) {
-      countdownInfo = (
-        <div className="countdown__info">
-          <div className="countdown__time">{ Math.abs(this.state.time) }</div>
-        </div>
-      );
-    }
-    else {
-      let selectOptions = Array(80).fill(1).map((index, item) => {
-        return (
-          <option key={ item } value={ item } >{ item }</option>
-        );
-      });
-
-      countdownInfo = (
-        <div className="countdown__info">
-          <form onSubmit={ this.props.saveFn } >
-            <select className="countdown__result" defaultValue="40">
-              { selectOptions }
-            </select>
-          </form>
-          <div className="countdown__icon countdown__icon--save" onClick={ this.props.saveFn } >
-            <i className="fa fa-floppy-o" />
-          </div>
-          <audio autoPlay="true" src={`media/countdown-over-${ Math.floor(Math.random() * 14) + 1 }.mp3`}></audio>
-        </div>
-      );
-    }
-
-    return (
-      <div className="countdown">
-        <div className="countdown__chords" >
-          <Chord chordName={ this.props.chord1 } />
-          <Chord chordName={ this.props.chord2 } />
-        </div>
-        { countdownInfo }
       </div>
     );
   }
 
   componentDidMount() {
+    this.interval = setInterval(this.updateTime, 1000);
   }
 
   componentWillUnmount() {
-    console.log('bye');
     clearInterval(this.interval);
   }
 
-  startCountdown = () => {
-    this.interval = setInterval(this.updateTime, 1000);
-    $('.countdown').classList.add('countdown--start-animation');
-
-    this.setState({
-      started: true,
-      running: true,
-    })
+  updateTime = () => {
+    // calculate duration in seconds from milliseconds
+    let duration = Math.floor((new Date() - this.props.startTime) / 1000) ;
+    this.setState({ duration: duration });
   }
 
-  updateTime = () => {
-    if (this.state.time >= (process.env.NODE_ENV == 'production' ? 60 : 5)) {
-      clearInterval(this.interval);
-      this.setState({ running: false });
+  prettyDuration = () => {
+    let duration = this.state.duration;
+    if (duration < 60) {
+      return duration + '’’';
+    } else {
+      return Math.floor(duration / 60) + '’';
     }
-
-    this.setState({ time: this.state.time + 1 });
   }
 }

@@ -21,11 +21,11 @@ export default class Feeding extends React.Component {
 
         <div className="feeding__duration">{ Feeding.prettyDuration(this.props.startTime, this.state.endTime) }</div>
         <div className="feeding__icons">
-          <div className="feeding__icon feeding__icon--save" onClick={ this.props.saveFn } >
-            <i className="fa fa-check" />
-          </div>
           <div className="feeding__icon feeding__icon--cancel" onClick={ this.props.cancelFn } >
             <i className="fa fa-times" />
+          </div>
+          <div className="feeding__icon feeding__icon--save" onClick={ this.props.saveFn } >
+            <i className="fa fa-check" />
           </div>
         </div>
       </div>
@@ -48,6 +48,7 @@ export default class Feeding extends React.Component {
 
   static prettyDuration(startTime, endTime) {
     let duration = Math.floor((endTime - startTime) / 1000);
+
     if (Math.abs(duration) < 60) {
       return duration + '’’';
     } else {

@@ -120,19 +120,19 @@ class Feedr extends React.Component {
     this.setState({
       dispState: dispStates.FEEDING,
       side: side,
-      startTime: startTime,
+      startTime: startTime.getTime(),
     });
   }
 
   startTimeChange = (e) => {
     let delta = parseInt(e.target.closest('.feeding__icon').dataset['startTimeDelta'], 10);
-    let startTimeNew = new Date(this.state.startTime.getTime() + delta * 1000 * 60);
+    let startTimeNew = new Date(this.state.startTime + delta * 1000 * 60);
     let now = new Date();
 
     // only if not in the future
     if ((now - startTimeNew) > 0) {
       this.setState({
-        startTime: startTimeNew,
+        startTime: startTimeNew.getTime(),
       });
     }
   }
@@ -153,17 +153,18 @@ class Feedr extends React.Component {
   saveFeeding = (e) => {
     e.preventDefault();
 
-    let repetitions = parseInt($('.feeding__result').value, 10);
-    if (repetitions > 0) {
-      const updatedPairs = this.state.currentFeeds.slice();
-      updatedPairs[this.state.currentFeed].records.push(repetitions);
+    let updatedFeeds = this.state.currentFeeds.slice();
 
-      this.setState({
-        currentFeeds: updatedPairs,
-        dispState: dispStates.PAIRS
-      });
-      this.storeFeeds(updatedPairs);
-    }
+    updatedFeeds.push({
+      'startTime': this.state.startTime,
+      'endTime': (new Date()).getTime(),
+      'side': this.state.side,
+    })
+    this.setState({
+      currentFeeds: updatedFeeds,
+      dispState: dispStates.LIST
+    });
+    this.storeFeeds(updatedFeeds);
   }
 
   reset = () => {
@@ -187,17 +188,16 @@ class Feedr extends React.Component {
   getStoredFeeds() {
     // default if no saved values available
     let defaultFeeds = [
-      {
-        'startTime': new Date(2017, 1, 18, 10),
-        'endTime': new Date(2017, 1, 18, 10, 5),
-        'side': 'L',
-      },
-      {
-        'startTime': new Date(2017, 1, 18, 11, 23),
-        'endTime': new Date(2017, 1, 18, 11, 35),
-        'side': 'R',
-      }
-
+      // {
+      //   'startTime': (new Date(2017, 1, 18, 10)).getTime(),
+      //   'endTime': (new Date(2017, 1, 18, 10, 5)).getTime(),
+      //   'side': 'L',
+      // },
+      // {
+      //   'startTime': (new Date(2017, 1, 18, 11, 23)).getTime(),
+      //   'endTime': (new Date(2017, 1, 18, 11, 35)).getTime(),
+      //   'side': 'R',
+      // }
     ];
 
     if (storageAvailable('localStorage')) {

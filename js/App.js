@@ -34,7 +34,7 @@ class Feedr extends React.Component {
     this.state = {
       dispState: dispStates.LIST,
       currentFeeds: this.getStoredFeeds(),
-      editingFeedIndex: undefined,
+      activeFeed: undefined,
     };
 
   }
@@ -117,14 +117,16 @@ class Feedr extends React.Component {
   }
 
   startFeeding = (e) => {
-    let side = e.target.dataset['side'];
-    let startTime = new Date();
-    let endTime = new Date();
+
+    let newFeed = {
+      side: e.target.dataset['side'],
+      startTime: (new Date()).getTime(),
+      endTime: (new Date()).getTime(),
+    }
+
     this.setState({
       dispState: dispStates.FEEDING,
-      side: side,
-      startTime: startTime.getTime(),
-      endTime: endTime.getTime(),
+      activeFeed: newFeed,
     });
 
     // update end time every second
@@ -134,8 +136,9 @@ class Feedr extends React.Component {
 
   updateTime = () => {
     // update endTime to now
-    let endTime = new Date();
-    this.setState({ endTime: endTime.getTime() });
+    let changedFeed = Object.assign({}, this.state.activeFeed);
+    changedFeed.endTime = (new Date()).getTime();
+    this.setState({ activeFeed: changedFeed });
   }
 
 
@@ -144,31 +147,32 @@ class Feedr extends React.Component {
     let delta = parseInt(el.dataset['timeDelta'], 10);
     let changeStartTime = el.dataset['timeStart'];
 
+    let changedFeed = Object.assign({}, this.state.activeFeed);
+
     if (changeStartTime) {
-      let startTimeNew = new Date(this.state.startTime + delta * 1000 * 60);
+      let startTimeNew = new Date(this.state.activeFeed.startTime + delta * 1000 * 60);
 
-      // start time must be smaller than end time of course
-      if (startTimeNew < this.state.endTime) {
+      // start time must be smaller than end time
+      if (startTimeNew < this.state.activeFeed.endTime) {
+        changedFeed.startTime = startTimeNew.getTime();
         this.setState({
-          startTime: startTimeNew.getTime(),
+          activeFeed: changedFeed,
         });
       }
-
-    } else {
-      let now = new Date();
-      let endTimeNew = new Date(this.state.endTime + delta * 1000 * 60);
-
-      // start time must be smaller than end time of course
-      if (endTimeNew > this.state.startTime && endTimeNew < now) {
-        this.setState({
-          endTime: endTimeNew.getTime(),
-        });
-      }
-
     }
+    else {
+      let now = new Date();
+      let endTimeNew = new Date(this.state.activeFeed.endTime + delta * 1000 * 60);
 
+      // start time must be smaller than end time of course
+      if (endTimeNew > this.state.activeFeed.startTime && endTimeNew < now) {
+        changedFeed.endTime = endTimeNew.getTime();
+        this.setState({
+          activeFeed: changedFeed,
+        });
+      }
+    }
   }
-
 
   showCountdown = (e) => {
     let chordIndex = e.target.closest('.pair').dataset['chordIndex'];
@@ -190,33 +194,39 @@ class Feedr extends React.Component {
 
     let updatedFeeds = this.state.currentFeeds.slice();
 
-    updatedFeeds.push({
-      'startTime': this.state.startTime,
-      'endTime': this.state.endTime,
-      'side': this.state.side,
-    })
+    updatedFeeds.push(this.state.activeFeed);
+
+    updatedFeeds.sort((a,b) => {
+      return (a.startTime - b.startTime);
+    });
+
     this.setState({
       currentFeeds: updatedFeeds,
-      dispState: dispStates.LIST
+      activeFeed: undefined,
+      dispState: dispStates.LIST,
     });
     this.storeFeeds(updatedFeeds);
   }
 
   editFeed = (e) => {
     let feedIndex = e.target.closest('.feed').dataset['feedIndex'];
+    let editingFeed = this.state.currentFeeds.splice(feedIndex, 1)[0];
 
     this.setState({
-      editingFeedIndex: feedIndex,
+      activeFeed: editingFeed,
       dispState: dispStates.EDITING,
     });
   }
 
   reset = () => {
-    if (storageAvailable('localStorage')) {
-      delete window.localStorage.feeds;
+    if (confirm('Do you really want to delete all stored feeds?')) {
+      if (storageAvailable('localStorage')) {
+        delete window.localStorage.feeds;
+      }
+
+      this.setState({ currentFeeds: this.getStoredFeeds() })
     }
 
-    this.setState({ currentFeeds: this.getStoredFeeds() })
   }
 
   storeFeeds(feedsToStore) {
@@ -290,16 +300,14 @@ class Feedr extends React.Component {
       return (
         <div>
           <Menu>
-            <Menu.item title={<span><i className="fa fa-times" ></i> Cancel</span>} onClick={ this.cancelFeeding } />
+            // <Menu.item title={<span><i className="fa fa-times" ></i> Cancel</span>} onClick={ this.cancelFeeding } />
           </Menu>
           <Feeding
-            side={ this.state.side }
-            startTime={ this.state.startTime }
-            endTime={ this.state.endTime }
+            feed={ this.state.activeFeed }
+            running={ true }
             timeChangeFn={ this.timeChange }
             saveFn={ this.saveFeeding }
             cancelFn={ this.cancelFeeding }
-            running={ true }
           />
         </div>
       );
@@ -311,13 +319,11 @@ class Feedr extends React.Component {
             <Menu.item title={<span><i className="fa fa-times" ></i> Cancel</span>} onClick={ this.cancelFeeding } />
           </Menu>
           <Feeding
-            side={ this.state.side }
-            startTime={ this.state.startTime }
-            endTime={ this.state.endTime }
+            feed={ this.state.activeFeed }
+            running={ false }
             timeChangeFn={ this.timeChange }
             saveFn={ this.saveFeeding }
             cancelFn={ this.cancelFeeding }
-            running={ false }
           />
         </div>
       );

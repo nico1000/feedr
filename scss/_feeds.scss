@@ -1,6 +1,19 @@
 
 .feeds, .feeds-add {
+  font-weight: $font-weight-bold;
   font-size: 1.5rem;
+}
+
+.feeds__separator {
+  background-color: $anthracite;
+  color: $light-gray;
+  font-size: 1.2rem;
+  height: $menu-height;
+  padding: 0.2rem 0.6rem;
+  @include breakpoint(medium) {
+    height: $menu-height-medium;
+    padding: 0.5rem 0.6rem;
+  }
 }
 
 .feed {
@@ -10,7 +23,6 @@
   height: $pair-height;
   line-height: $pair-height;
 
-  font-weight: $font-weight-bold;
   text-align: center;
 
   cursor: pointer;

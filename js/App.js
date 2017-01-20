@@ -243,13 +243,13 @@ class Feedr extends React.Component {
     // default if no saved values available
     let defaultFeeds = [
       // {
-      //   'startTime': (new Date(2017, 1, 18, 10)).getTime(),
-      //   'endTime': (new Date(2017, 1, 18, 10, 5)).getTime(),
+      //   'startTime': (new Date(2017, 0, 18, 10)).getTime(),
+      //   'endTime': (new Date(2017, 0, 18, 10, 5)).getTime(),
       //   'side': 'L',
       // },
       // {
-      //   'startTime': (new Date(2017, 1, 18, 11, 23)).getTime(),
-      //   'endTime': (new Date(2017, 1, 18, 11, 35)).getTime(),
+      //   'startTime': (new Date(2017, 0, 18, 11, 23)).getTime(),
+      //   'endTime': (new Date(2017, 0, 18, 11, 35)).getTime(),
       //   'side': 'R',
       // }
     ];
@@ -268,15 +268,28 @@ class Feedr extends React.Component {
 
   render() {
 
+    let day = 0;
+    let daySeparator = undefined;
+
     let storedFeeds = this.state.currentFeeds.map((currentFeed, index) => {
+      let startDay = new Date(currentFeed.startTime).getDay();
+      if (startDay != day) {
+        day = startDay;
+        daySeparator = <div className="feeds__separator">{ DateFormat(currentFeed.startTime, "ddd, dd. mmm") }</div>;
+      } else {
+        daySeparator = undefined;
+      }
+
       return (
+        <div key={ index } >
+        { daySeparator }
         <Feed
-          key={ index }
           feedIndex={ index }
           startTime={ currentFeed.startTime }
           endTime={ currentFeed.endTime }
           side={ currentFeed.side }
           editFeedFn= { this.editFeed } />
+        </div>
       );
     });
 
@@ -288,11 +301,13 @@ class Feedr extends React.Component {
           </Menu>
           <div className="feeds">
             { storedFeeds }
-          </div>
-          <div className="feeds-add">
-            <div className="feeds-add__start feeds-add__start--L" data-side="L" onClick={ this.startFeeding }>L</div>
-            <div className="feeds-add__start feeds-add__start--Zzz" data-side="Zzz" onClick={ this.startFeeding }>Zzz</div>
-            <div className="feeds-add__start feeds-add__start--R" data-side="R" onClick={ this.startFeeding }>R</div>
+            <div className="feeds__separator">Add new</div>
+            <div className="feeds-add">
+              <div className="feeds-add__start feeds-add__start--L" data-side="L" onClick={ this.startFeeding }>L</div>
+              <div className="feeds-add__start feeds-add__start--Zzz" data-side="Zzz" onClick={ this.startFeeding }>Zzz</div>
+              <div className="feeds-add__start feeds-add__start--R" data-side="R" onClick={ this.startFeeding }>R</div>
+            </div>
+
           </div>
         </div>
       );
@@ -300,9 +315,9 @@ class Feedr extends React.Component {
     else if (this.state.dispState == dispStates.FEEDING) {
       return (
         <div>
-          <Menu>
-            { false && <Menu.item title={<span><i className="fa fa-times" ></i> Cancel</span>} onClick={ this.cancelFeeding } /> }
-          </Menu>
+          { false && <Menu>
+            <Menu.item title={<span><i className="fa fa-times" ></i> Cancel</span>} onClick={ this.cancelFeeding } />
+          </Menu> }
           <Feeding
             feed={ this.state.activeFeed }
             running={ true }
@@ -316,9 +331,9 @@ class Feedr extends React.Component {
     else if (this.state.dispState == dispStates.EDITING) {
       return (
         <div>
-          <Menu>
+          { false && <Menu>
             <Menu.item title={<span><i className="fa fa-times" ></i> Cancel</span>} onClick={ this.cancelFeeding } />
-          </Menu>
+          </Menu> }
           <Feeding
             feed={ this.state.activeFeed }
             running={ false }

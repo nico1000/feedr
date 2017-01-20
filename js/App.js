@@ -1,5 +1,4 @@
 import React from 'react';
-import Chord from './Chord';
 import Menu from './Menu';
 import Feeding from './Feeding';
 
@@ -9,9 +8,6 @@ const dispStates = {
   LIST: 'LIST',
   FEEDING: 'FEEDING',
   EDITING: 'EDITING',
-  PAIRS: 'PAIRS',
-  PAIR_NEW: 'PAIR_NEW',
-  PAIR_COUNTDOWN: 'PAIR_COUNTDOWN',
 };
 
 export default class App extends React.Component {
@@ -23,9 +19,7 @@ export default class App extends React.Component {
         <Feedr />
       );
   }
-
 }
-
 
 class Feedr extends React.Component {
   constructor(props) {
@@ -57,30 +51,6 @@ class Feedr extends React.Component {
     // }
   }
 
-  cancelAddPair = (e) => {
-    e.stopPropagation();
-    this.setState({ dispState: dispStates.PAIRS });
-  }
-
-  addPair = () => {
-    this.setState({ dispState: dispStates.PAIR_NEW, selectedChords: {left: '', right: ''} });
-  }
-
-  createNewPair = (chordName1, chordName2) => {
-    let newPairs = this.state.currentFeeds.slice();
-
-    newPairs.push({
-      'chord1': chordName1,
-      'chord2': chordName2,
-      'records': [],
-    });
-
-    this.setState({ currentFeeds: newPairs });
-    this.storeFeeds(newPairs);
-  }
-
-
-
   touchstart = (e) => {
     this.longTouch = false;
     this.longTouchTimeout = setTimeout(() => {
@@ -97,23 +67,6 @@ class Feedr extends React.Component {
     }
     this.longTouch = false;
     clearTimeout(this.longTouchTimeout);
-  }
-
-  deleteRepetition = (e) => {
-    let recordIndex = e.target.dataset['recordIndex'];
-    let chordIndex = e.target.closest('.pair').dataset['chordIndex'];
-
-    const updatedPairs = this.state.currentFeeds.slice();
-    updatedPairs[chordIndex].records.splice(recordIndex, 1);
-
-    // if it was the last record, delete the pair as well
-    if (updatedPairs[chordIndex].records.length == 0) {
-        updatedPairs.splice(chordIndex, 1);
-    }
-
-    this.setState({
-      currentFeeds: updatedPairs
-    });
   }
 
   startFeeding = (e) => {
@@ -172,14 +125,6 @@ class Feedr extends React.Component {
         });
       }
     }
-  }
-
-  showCountdown = (e) => {
-    let chordIndex = e.target.closest('.pair').dataset['chordIndex'];
-    this.setState({
-      dispState: dispStates.PAIR_COUNTDOWN,
-      currentFeed: chordIndex,
-    });
   }
 
   cancelFeeding = (e) => {
@@ -343,33 +288,6 @@ class Feedr extends React.Component {
         </div>
       );
     }
-    else if (this.state.dispState == dispStates.PAIR_NEW) {
-      return (
-        <div>
-          <Menu>
-          </Menu>
-          <div className="columns-container columns-container--select-chords" >
-            <Chord.chordsColumn chords={ availableChords.left }  selectedChord={ this.state.selectedChords.left }  chordSelectedFn={ this.chordSelected } displayPosition={ 'left' } />
-            <Chord.chordsColumn chords={ availableChords.right } selectedChord={ this.state.selectedChords.right } chordSelectedFn={ this.chordSelected } displayPosition={ 'right' } />
-          </div>
-        </div>
-      );
-    }
-    else if (this.state.dispState == dispStates.PAIR_COUNTDOWN) {
-      return (
-        <div>
-          <Menu>
-            <Menu.item title={<span><i className="fa fa-times" ></i> Cancel</span>} onClick={ this.cancelFeeding } />
-          </Menu>
-          <Countdown
-            chord1={ this.state.currentFeeds[this.state.currentFeed].chord1 }
-            chord2={ this.state.currentFeeds[this.state.currentFeed].chord2 }
-            saveFn={ this.saveFeeding }
-            cancelFn={ this.cancelFeeding }
-          />
-        </div>
-      );
-    }
     else {
       return (
         <span>nothing to display</span>
@@ -388,31 +306,6 @@ function Feed(props) {
   );
 }
 
-function PairChords(props) {
-
-  return (
-    <div className="pair__chords">
-      <div className="pair__chord">{ Chord.nicePrint(props.chord1) }</div>
-      <div className="pair__chord">{ Chord.nicePrint(props.chord2) }</div>
-    </div>
-  );
-}
-
-
-function PairRecords(props) {
-  let records = props.records.map((repetitions, index) => {
-    return (
-      <div key={ index } data-record-index={ index } className="pair__record">{ repetitions }</div>
-    );
-  });
-
-  return (
-    <div className="pair__records">
-      { records }
-      <div className="pair__record pair__record--add" ><i className="fa fa-clock-o"></i></div>
-    </div>
-  );
-}
 
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API

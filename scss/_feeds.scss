@@ -17,7 +17,7 @@
 }
 
 .feed__start {
-  flex: 0 0 50%;
+  flex: 0 0 33.333%;
   background-color: $lighter-turquois;
 }
 
@@ -25,12 +25,13 @@
   flex: 1 0 auto;
   background-color: $lightest-turquois;
 
-  &--L { background-color: $light-orange; }
-  &--R { background-color: $light-red; }
+  &--L   { background-color: $light-orange; }
+  &--R   { background-color: $light-red; }
+  &--Zzz { background-color: $gray; }
 }
 
 .feed__duration {
-  flex: 0 0 30%;
+  flex: 0 0 33.333%;
   background-color: $turquois;
 }
 
@@ -49,8 +50,9 @@
 
 .feeds-add__start {
   flex: 1 1 50%;
-  &--L { background-color: $light-orange; }
-  &--R { background-color: $light-red; }
+  &--L   { background-color: $light-orange; }
+  &--R   { background-color: $light-red; }
+  &--Zzz { background-color: $gray; }
 }
 
 .pair__chords {

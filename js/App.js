@@ -290,8 +290,9 @@ class Feedr extends React.Component {
             { storedFeeds }
           </div>
           <div className="feeds-add">
-            <div className="feeds-add__start feeds-add__start--L" data-side="L" onClick={ this.startFeeding }>Start L</div>
-            <div className="feeds-add__start feeds-add__start--R" data-side="R" onClick={ this.startFeeding }>Start R</div>
+            <div className="feeds-add__start feeds-add__start--L" data-side="L" onClick={ this.startFeeding }>L</div>
+            <div className="feeds-add__start feeds-add__start--Zzz" data-side="Zzz" onClick={ this.startFeeding }>Zzz</div>
+            <div className="feeds-add__start feeds-add__start--R" data-side="R" onClick={ this.startFeeding }>R</div>
           </div>
         </div>
       );
@@ -300,7 +301,7 @@ class Feedr extends React.Component {
       return (
         <div>
           <Menu>
-            // <Menu.item title={<span><i className="fa fa-times" ></i> Cancel</span>} onClick={ this.cancelFeeding } />
+            { false && <Menu.item title={<span><i className="fa fa-times" ></i> Cancel</span>} onClick={ this.cancelFeeding } /> }
           </Menu>
           <Feeding
             feed={ this.state.activeFeed }

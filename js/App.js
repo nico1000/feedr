@@ -260,9 +260,9 @@ class Feedr extends React.Component {
     else if (this.state.dispState == dispStates.FEEDING) {
       return (
         <div>
-          { false && <Menu>
+          <Menu>
             <Menu.item title={<span><i className="fa fa-times" ></i> Cancel</span>} onClick={ this.cancelFeeding } />
-          </Menu> }
+          </Menu>
           <Feeding
             feed={ this.state.activeFeed }
             running={ true }

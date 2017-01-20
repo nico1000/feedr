@@ -42,6 +42,10 @@
   background-color: $turquois;
   text-align: center;
   font-size: 8rem;
+
+  .feeding--editing & {
+    font-size: 6rem;
+  }
 }
 
 .feeding__result {

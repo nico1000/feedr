@@ -331,9 +331,8 @@ class Feedr extends React.Component {
     else if (this.state.dispState == dispStates.EDITING) {
       return (
         <div>
-          { false && <Menu>
-            <Menu.item title={<span><i className="fa fa-times" ></i> Cancel</span>} onClick={ this.cancelFeeding } />
-          </Menu> }
+          <Menu>
+          </Menu>
           <Feeding
             feed={ this.state.activeFeed }
             running={ false }
@@ -348,7 +347,6 @@ class Feedr extends React.Component {
       return (
         <div>
           <Menu>
-            <Menu.item title={<span><i className="fa fa-times" ></i> Cancel</span>} onClick={ this.cancelAddPair } />
           </Menu>
           <div className="columns-container columns-container--select-chords" >
             <Chord.chordsColumn chords={ availableChords.left }  selectedChord={ this.state.selectedChords.left }  chordSelectedFn={ this.chordSelected } displayPosition={ 'left' } />

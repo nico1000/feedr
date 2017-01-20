@@ -20,13 +20,20 @@
   &--R { background-color: $light-red; }
 }
 
-.feeding__start-time {
-  background-color: $lighter-turquois;
+.feeding__start-time, .feeding__end-time {
   display: flex;
   flex-direction: row;
   align-items: center;
   align-self: stretch;
   justify-content: space-around;
+}
+
+.feeding__start-time {
+  background-color: $lighter-turquois;
+}
+
+.feeding__end-time {
+  background-color: $darker-turquois;
 }
 
 .feeding__duration {

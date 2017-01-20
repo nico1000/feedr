@@ -5,21 +5,31 @@ export default class Feeding extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      endTime: new Date(),
     }
   }
 
   render() {
+    let endTime = (
+      <div className="feeding__end-time">
+        <div className="feeding__icon feeding__icon--minus" data-time-end data-time-delta="-1" onClick={ this.props.timeChangeFn }><i className="fa fa-minus-circle" /></div>
+        <div>{ DateFormat(this.props.endTime, "HH:MM") }</div>
+        <div className="feeding__icon feeding__icon--plus" data-time-end data-time-delta="1" onClick={ this.props.timeChangeFn }><i className="fa fa-plus-circle" /></div>
+      </div>
+    );
+
     return (
-      <div className="feeding">
+      <div className={ "feeding feeding--" + (this.props.running ? 'running' : 'editing') }>
         <div className={ "feeding__side feeding__side--" + this.props.side }>{ this.props.side }</div>
         <div className="feeding__start-time">
-          <div className="feeding__icon feeding__icon--minus" data-start-time-delta="-1" onClick={ this.props.startTimeChangeFn }><i className="fa fa-minus-circle" /></div>
+          <div className="feeding__icon feeding__icon--minus" data-time-start data-time-delta="-1" onClick={ this.props.timeChangeFn }><i className="fa fa-minus-circle" /></div>
           <div>{ DateFormat(this.props.startTime, "HH:MM") }</div>
-          <div className="feeding__icon feeding__icon--plus" data-start-time-delta="1" onClick={ this.props.startTimeChangeFn }><i className="fa fa-plus-circle" /></div>
+          <div className="feeding__icon feeding__icon--plus" data-time-start data-time-delta="1" onClick={ this.props.timeChangeFn }><i className="fa fa-plus-circle" /></div>
         </div>
 
-        <div className="feeding__duration">{ Feeding.prettyDuration(this.props.startTime, this.state.endTime) }</div>
+        <div className="feeding__duration">{ Feeding.prettyDuration(this.props.startTime, this.props.endTime) }</div>
+
+        { !this.props.running && endTime }
+
         <div className="feeding__icons">
           <div className="feeding__icon feeding__icon--cancel" onClick={ this.props.cancelFn } >
             <i className="fa fa-times" />
@@ -30,20 +40,6 @@ export default class Feeding extends React.Component {
         </div>
       </div>
     );
-  }
-
-  componentDidMount() {
-    this.interval = setInterval(this.updateTime, 1000);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.interval);
-  }
-
-  updateTime = () => {
-    // calculate duration in seconds from milliseconds
-    let endTime = new Date();
-    this.setState({ endTime: endTime });
   }
 
   static prettyDuration(startTime, endTime) {

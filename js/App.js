@@ -14,6 +14,7 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
   }
+
   render() {
       return (
         <Feedr />
@@ -25,12 +26,12 @@ class Feedr extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      dispState: dispStates.LIST,
-      currentFeeds: this.getStoredFeeds(),
-      activeFeed: undefined,
-    };
+    this.state = this.getStoredState();
 
+    if (this.state.dispState == 'FEEDING') {
+      // update end time every second
+      this.interval = setInterval(this.updateTime, 1000);
+    }
   }
 
   componentWillMount = () => {
@@ -80,7 +81,7 @@ class Feedr extends React.Component {
     this.setState({
       dispState: dispStates.FEEDING,
       activeFeed: newFeed,
-    });
+    }, this.storeState);
 
     // update end time every second
     this.interval = setInterval(this.updateTime, 1000);
@@ -128,7 +129,7 @@ class Feedr extends React.Component {
   }
 
   cancelFeeding = (e) => {
-    this.setState({ dispState: dispStates.LIST });
+    this.setState({ dispState: dispStates.LIST }, this.storeState);
     clearInterval(this.interval);
 
   }
@@ -149,8 +150,7 @@ class Feedr extends React.Component {
       currentFeeds: updatedFeeds,
       activeFeed: undefined,
       dispState: dispStates.LIST,
-    });
-    this.storeFeeds(updatedFeeds);
+    }, this.storeState);
   }
 
   editFeed = (e) => {
@@ -184,6 +184,19 @@ class Feedr extends React.Component {
     }
   }
 
+  storeState = () => {
+    console.log('storeState()');
+
+    if (storageAvailable('localStorage')) {
+      console.log('storing into localStorage');
+      window.localStorage.setItem('feedr_state', JSON.stringify(this.state));
+    }
+    else {
+      console.log('localStorage not available');
+    }
+
+  };
+
   getStoredFeeds() {
     // default if no saved values available
     let defaultFeeds = [
@@ -208,6 +221,31 @@ class Feedr extends React.Component {
     }
 
     return defaultFeeds;
+  }
+
+  getStoredState = () => {
+    if (storageAvailable('localStorage')) {
+      let storedFeedrJson = window.localStorage.getItem('feedr_state');
+      if (storedFeedrJson) {
+        console.log('reading from localStorage');
+        return JSON.parse(storedFeedrJson);
+      }
+      else {
+
+        // backwards compatibility
+        let storedFeeds = [];
+        let storedFeedsJson = window.localStorage.getItem('feeds');
+        if (storedFeedsJson) {
+          storedFeeds = JSON.parse(storedFeedsJson);
+        }
+
+        return {
+          dispState: dispStates.LIST,
+          currentFeeds: storedFeeds,
+          activeFeed: undefined,
+        };
+      }
+    }
   }
 
 

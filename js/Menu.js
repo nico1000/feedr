@@ -19,7 +19,7 @@ export default class Menu extends React.Component {
       $('.menu__nav').classList.toggle('menu__nav--open');
     }
     else if (e.target.closest('.menu__nav')) {
-      // do nothing
+      $('.menu__nav').classList.remove('menu__nav--open');
     }
     else {
       $('.menu__nav').classList.remove('menu__nav--open');

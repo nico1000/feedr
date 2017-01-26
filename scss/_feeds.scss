@@ -9,11 +9,8 @@
   color: $black;
   font-size: 1.2rem;
   height: $menu-height;
+  line-height: $menu-height - 0.3rem;
   padding: 0.2rem 0.6rem;
-  @include breakpoint(medium) {
-    height: $menu-height-medium;
-    padding: 0.5rem 0.6rem;
-  }
 }
 
 .feed {

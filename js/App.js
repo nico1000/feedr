@@ -250,11 +250,10 @@ class Feedr extends React.Component {
 
 
   render() {
-
     let day = 0;
     let daySeparator = undefined;
 
-    let storedFeeds = this.state.currentFeeds.map((currentFeed, index) => {
+    let storedFeeds = this.state.currentFeeds.reverse().map((currentFeed, index) => {
       let startDay = new Date(currentFeed.startTime).getDay();
       if (startDay != day) {
         day = startDay;
@@ -283,14 +282,12 @@ class Feedr extends React.Component {
             <Menu.item title={<span><i className="fa fa-ban" ></i> Reset</span>} onClick={ this.reset } />
           </Menu>
           <div className="feeds">
-            { storedFeeds }
-            <div className="feeds__separator">Add new</div>
             <div className="feeds-add">
-              <div className="feeds-add__start feeds-add__start--L" data-side="L" onClick={ this.startFeeding }>L</div>
-              <div className="feeds-add__start feeds-add__start--Zzz" data-side="Zzz" onClick={ this.startFeeding }>Zzz</div>
-              <div className="feeds-add__start feeds-add__start--R" data-side="R" onClick={ this.startFeeding }>R</div>
+              <div className="feeds-add__start feeds-add__start--L" data-side="L" onClick={ this.startFeeding }><i className='fa fa-plus-circle'></i> L</div>
+              <div className="feeds-add__start feeds-add__start--Zzz" data-side="Zzz" onClick={ this.startFeeding }><i className='fa fa-plus-circle'></i> Zzz</div>
+              <div className="feeds-add__start feeds-add__start--R" data-side="R" onClick={ this.startFeeding }><i className='fa fa-plus-circle'></i> R</div>
             </div>
-
+            { storedFeeds }
           </div>
         </div>
       );

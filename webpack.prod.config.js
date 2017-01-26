@@ -20,6 +20,10 @@ config.module.loaders = [
     loader: ExtractTextPlugin.extract("style-loader", "css-loader!sass-loader!postcss-loader")
   },
   {
+    test: /\.json$/,
+    loaders: ["json"]
+  },
+  {
     test: /\.jsx?$/,
     exclude: /node_modules/,
     loader: "babel",

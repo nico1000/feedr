@@ -356,3 +356,21 @@ function storageAvailable(type) {
 		return false;
 	}
 }
+
+// http://codereview.stackexchange.com/questions/37028/grouping-elements-in-array-by-multiple-properties
+function groupArrayByFn(array, fn)
+{
+  var groups = {};
+  array.forEach( function(item)
+  {
+    var group = JSON.stringify(fn(item));
+    groups[group] = groups[group] || [];
+    groups[group].push(item);
+  });
+  return Object.keys(groups).map((group) =>
+  {
+    return groups[group];
+  });
+}
+
+window.groupArrayByFn = groupArrayByFn;

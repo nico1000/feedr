@@ -17,14 +17,9 @@ WebFont.load({
 });
 
 $.ready().then(function(){
-
-  console.log('hello there react!');
   ReactDOM.render(<App />, $('#root'));
 
 });
 
 function fontsHaveLoaded() {
-  // need to way until fonts are ready
-  // so they can be used on canvas
-  // drawChords.replace();
 }

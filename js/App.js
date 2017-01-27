@@ -71,9 +71,8 @@ class Feedr extends React.Component {
   }
 
   startFeeding = (e) => {
-
     let newFeed = {
-      side: e.target.dataset['side'],
+      side: e.currentTarget.dataset['side'],
       startTime: (new Date()).getTime(),
       endTime: (new Date()).getTime(),
     }
@@ -168,29 +167,24 @@ class Feedr extends React.Component {
       if (storageAvailable('localStorage')) {
         delete window.localStorage.feedr_state;
       }
-
       this.setState(this.getStoredState());
     }
-  }
+  };
 
   storeState = () => {
-    console.log('storeState()');
-
     if (storageAvailable('localStorage')) {
-      console.log('storing into localStorage');
       window.localStorage.setItem('feedr_state', JSON.stringify(this.state));
     }
     else {
-      console.log('localStorage not available');
+      console.info('localStorage not available. unable to save data.');
     }
-
   };
 
   getStoredState = () => {
     if (storageAvailable('localStorage')) {
       let storedFeedrJson = window.localStorage.getItem('feedr_state');
       if (storedFeedrJson) {
-        console.log('reading from localStorage');
+        console.info('reading from localStorage');
         return JSON.parse(storedFeedrJson);
       }
       else {

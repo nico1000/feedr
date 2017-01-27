@@ -229,7 +229,7 @@ class Feedr extends React.Component {
         <div key={ index } >
         { daySeparator }
         <Feed
-          feedIndex={ this.state.currentFeeds.length - index + 1 }
+          feedIndex={ this.state.currentFeeds.length - index - 1 }
           startTime={ currentFeed.startTime }
           endTime={ currentFeed.endTime }
           side={ currentFeed.side }

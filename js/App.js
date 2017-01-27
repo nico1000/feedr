@@ -166,21 +166,10 @@ class Feedr extends React.Component {
   reset = () => {
     if (confirm('Do you really want to delete all stored feeds?')) {
       if (storageAvailable('localStorage')) {
-        delete window.localStorage.feeds;
+        delete window.localStorage.feedr_state;
       }
 
-      this.setState({ currentFeeds: this.getStoredFeeds() })
-    }
-
-  }
-
-  storeFeeds(feedsToStore) {
-    if (storageAvailable('localStorage')) {
-      console.log('storing into localStorage');
-      window.localStorage.setItem('feeds', JSON.stringify(feedsToStore));
-    }
-    else {
-      console.log('localStorage not available');
+      this.setState(this.getStoredState());
     }
   }
 
@@ -197,32 +186,6 @@ class Feedr extends React.Component {
 
   };
 
-  getStoredFeeds() {
-    // default if no saved values available
-    let defaultFeeds = [
-      // {
-      //   'startTime': (new Date(2017, 0, 18, 10)).getTime(),
-      //   'endTime': (new Date(2017, 0, 18, 10, 5)).getTime(),
-      //   'side': 'L',
-      // },
-      // {
-      //   'startTime': (new Date(2017, 0, 18, 11, 23)).getTime(),
-      //   'endTime': (new Date(2017, 0, 18, 11, 35)).getTime(),
-      //   'side': 'R',
-      // }
-    ];
-
-    if (storageAvailable('localStorage')) {
-      let storedFeedsJson = window.localStorage.getItem('feeds');
-      if (storedFeedsJson) {
-        console.log('reading from localStorage');
-        return JSON.parse(storedFeedsJson);
-      }
-    }
-
-    return defaultFeeds;
-  }
-
   getStoredState = () => {
     if (storageAvailable('localStorage')) {
       let storedFeedrJson = window.localStorage.getItem('feedr_state');
@@ -231,29 +194,29 @@ class Feedr extends React.Component {
         return JSON.parse(storedFeedrJson);
       }
       else {
-
-        // backwards compatibility
-        let storedFeeds = [];
-        let storedFeedsJson = window.localStorage.getItem('feeds');
-        if (storedFeedsJson) {
-          storedFeeds = JSON.parse(storedFeedsJson);
-        }
-
         return {
           dispState: dispStates.LIST,
-          currentFeeds: storedFeeds,
+          currentFeeds: [],
           activeFeed: undefined,
         };
       }
     }
-  }
-
+  };
 
   render() {
     let day = 0;
     let daySeparator = undefined;
 
-    let storedFeeds = this.state.currentFeeds.reverse().map((currentFeed, index) => {
+    // let test = groupArrayByFn(this.state.currentFeeds.reverse(), (item) => {
+    //   console.log(DateFormat(item.startTime, "dd.mm.yy"));
+    //   return DateFormat(item.startTime, "dd.mm.yy");
+    // });
+    //
+    // console.log(test);
+    // window.test = test;
+    // window.currentFeeds = this.state.currentFeeds;
+
+    let storedFeeds = this.state.currentFeeds.slice().reverse().map((currentFeed, index) => {
       let startDay = new Date(currentFeed.startTime).getDay();
       if (startDay != day) {
         day = startDay;
@@ -266,7 +229,7 @@ class Feedr extends React.Component {
         <div key={ index } >
         { daySeparator }
         <Feed
-          feedIndex={ index }
+          feedIndex={ this.state.currentFeeds.length - index + 1 }
           startTime={ currentFeed.startTime }
           endTime={ currentFeed.endTime }
           side={ currentFeed.side }

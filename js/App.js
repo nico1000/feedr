@@ -2,6 +2,8 @@ import React from 'react';
 import Menu from './Menu';
 import Feeding from './Feeding';
 
+import pckg from '../package.json';
+
 import DateFormat from 'dateformat';
 
 const dispStates = {
@@ -236,7 +238,8 @@ class Feedr extends React.Component {
       return (
         <div>
           <Menu>
-            <Menu.item title={<span><i className="fa fa-ban" ></i> Reset</span>} onClick={ this.reset } />
+            <Menu.item title={ pckg.version } icon='fa fa-code-fork' />
+            <Menu.item title='Reset' icon='fa fa-ban' onClick={ this.reset } />
           </Menu>
           <div className="feeds">
             <div className="feeds-add">
@@ -253,7 +256,8 @@ class Feedr extends React.Component {
       return (
         <div>
           <Menu>
-            <Menu.item title={<span><i className="fa fa-times" ></i> Cancel</span>} onClick={ this.cancelFeeding } />
+            <Menu.item title='Save' icon='fa fa-check' onClick={ this.saveFeeding } />
+            <Menu.item title='Cancel' icon='fa fa-trash' onClick={ this.cancelFeeding } />
           </Menu>
           <Feeding
             feed={ this.state.activeFeed }

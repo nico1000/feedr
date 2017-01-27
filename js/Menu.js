@@ -1,5 +1,4 @@
 import React from 'react';
-import pckg from '../package.json';
 
 export default class Menu extends React.Component {
   constructor(props) {
@@ -32,7 +31,6 @@ export default class Menu extends React.Component {
         <div className='menu__title'>Feedr</div>
         <div className='menu__toggle'><i className='fa fa-bars'></i></div>
         <ul className='menu__nav'>
-          <li className='menu__item'>v.{ pckg.version }</li>
           { this.props.children }
         </ul>
       </div>
@@ -41,7 +39,10 @@ export default class Menu extends React.Component {
 
   static item(props) {
     return (
-      <li className='menu__item' onClick={ props.onClick } >{ props.title}</li>
+      <li className='menu__item' onClick={ props.onClick } data-cursor={ props.onClick ? 'pointer' : '' } >
+        { props.icon && <i className={ props.icon }></i> }
+        <span>{ props.title }</span>
+      </li>
     )
   }
 }

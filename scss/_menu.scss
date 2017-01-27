@@ -25,9 +25,8 @@
   position: absolute;
   right: 0;
   top: $menu-height;
-
+  padding: 0.2rem 0;
   background: $anthracite;
-  padding: 0.2rem 0.6rem;
 
   transition: transform 0.2s ease-in-out;
   transform: translateX(100%);
@@ -41,9 +40,22 @@
   cursor: pointer;
 }
 
-.menu__item {
-  height: $menu-height;
-  padding: 0.2rem 0.6rem;
-
+[data-cursor='pointer'] {
   cursor: pointer;
+}
+
+.menu__item {
+  padding: 0.3rem 1rem 0.3rem 0.5rem;
+  display: flex;
+  align-items: center;
+
+  > i {
+    flex: 0 0 auto;
+    min-width: 2.5rem;
+    text-align: center;
+  }
+
+  > span {
+    flex: 0 0 auto;
+  }
 }

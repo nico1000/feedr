@@ -200,7 +200,7 @@ class Feedr extends React.Component {
   };
 
   render() {
-    let day = 0;
+    let day = undefined;
     let daySeparator = undefined;
 
     // let test = groupArrayByFn(this.state.currentFeeds.reverse(), (item) => {

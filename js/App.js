@@ -273,6 +273,8 @@ class Feedr extends React.Component {
       return (
         <div>
           <Menu>
+            <Menu.item title='Save' icon='fa fa-check' onClick={ this.saveFeeding } />
+            <Menu.item title='Cancel' icon='fa fa-trash' onClick={ this.cancelFeeding } />
           </Menu>
           <Feeding
             feed={ this.state.activeFeed }
@@ -302,8 +304,6 @@ function Feed(props) {
   );
 }
 
-
-
 // https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API/Using_the_Web_Storage_API
 function storageAvailable(type) {
 	try {
@@ -317,21 +317,3 @@ function storageAvailable(type) {
 		return false;
 	}
 }
-
-// http://codereview.stackexchange.com/questions/37028/grouping-elements-in-array-by-multiple-properties
-function groupArrayByFn(array, fn)
-{
-  var groups = {};
-  array.forEach( function(item)
-  {
-    var group = JSON.stringify(fn(item));
-    groups[group] = groups[group] || [];
-    groups[group].push(item);
-  });
-  return Object.keys(groups).map((group) =>
-  {
-    return groups[group];
-  });
-}
-
-window.groupArrayByFn = groupArrayByFn;

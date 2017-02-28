@@ -64,45 +64,6 @@
   &--Zzz { background-color: $gray; }
 }
 
-.pair__chords {
-  position: sticky;
-  left: 0;
-  display: flex;
-
-
-  justify-content: space-around;
-  align-items: stretch;
-}
-
-.pair__chord {
-  flex: 1 0 auto;
-
-  background-color: $turquois;
-}
-
-.pair__add {
-  flex: 1 0 auto;
-  background-color: $light-gray;
-}
-
-.pair__records {
-  display: flex;
-  flex-wrap: no-wrap;
-  align-items: center;
-
-  background-color: $green;
-}
-
-.pair__record {
-  width: 4rem;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-
-  &--add {
-    font-size: 1em;
-  }
-}
-
 
 .columns-container {
   display: flex;

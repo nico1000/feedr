@@ -28,7 +28,7 @@ export default class Menu extends React.Component {
   render() {
     return (
       <div className='menu'>
-        <div className='menu__title'>Feedr</div>
+        <div className='menu__title'>{ this.props.title }</div>
         { this.props.children != undefined && <div className='menu__toggle'><i className='fa fa-bars'></i></div> }
         <ul className='menu__nav'>
           { this.props.children }

@@ -237,7 +237,7 @@ class Feedr extends React.Component {
     if (this.state.dispState == dispStates.LIST) {
       return (
         <div>
-          <Menu>
+          <Menu title={ pckg.name }>
             <Menu.item title={ pckg.version } icon='fa fa-code-fork' />
             <Menu.item title='Reset' icon='fa fa-ban' onClick={ this.reset } />
           </Menu>
@@ -255,7 +255,7 @@ class Feedr extends React.Component {
     else if (this.state.dispState == dispStates.FEEDING) {
       return (
         <div>
-          <Menu>
+          <Menu title={ pckg.name }>
             <Menu.item title='Save' icon='fa fa-check' onClick={ this.saveFeeding } />
             <Menu.item title='Cancel' icon='fa fa-trash' onClick={ this.cancelFeeding } />
           </Menu>
@@ -272,7 +272,7 @@ class Feedr extends React.Component {
     else if (this.state.dispState == dispStates.EDITING) {
       return (
         <div>
-          <Menu>
+          <Menu title={ pckg.name }>
             <Menu.item title='Save' icon='fa fa-check' onClick={ this.saveFeeding } />
             <Menu.item title='Cancel' icon='fa fa-trash' onClick={ this.cancelFeeding } />
           </Menu>
